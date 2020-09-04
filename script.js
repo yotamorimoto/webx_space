@@ -31,6 +31,7 @@ gl.appendChild(renderer.domElement);
 // --------- start
 document.getElementById('play').addEventListener('click', function(){
 	controls = new THREE.DeviceOrientationControls(camera);
+	controls.connect(); // do it twice anyway ... (once at the Ctor above)
 	hide();
 	loop();
 });
@@ -70,7 +71,7 @@ document.getElementById('loading').remove();
 // function ready(){ document.getElementById('loading').remove() };
 
 // --------- audio
-var audioContext = new AudioContext();
+// var audioContext = new AudioContext();
 // var foaRenderer = Omnitone.createFOARenderer(audioContext);
 // var audio = audioContext.createMediaElementSource(video);
 // foaRenderer.initialize().then(function() {
