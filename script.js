@@ -48,8 +48,8 @@ function askFullscreen() {
 	// }
 	// gl.style.width = '100%';
 	// gl.style.height = '100%';
-	console.log(gl.requestFullscreen);
-	console.log(gl.webkitRequestFullscreen);
+	console.log(gl.requestFullscreen.toString());
+	console.log(gl.webkitRequestFullscreen.toString());
 }
 // --------- controls
 
