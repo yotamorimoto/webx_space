@@ -31,10 +31,23 @@ gl.appendChild(renderer.domElement);
 // --------- start
 document.getElementById('play').addEventListener('click', function(){
 	controls = new THREE.DeviceOrientationControls(camera);
-	controls.connect(); // do it twice anyway ... (once at the Ctor above)
+	controls.connect(); // do it twice! ... (once at the Ctor above)
 	hide();
 	loop();
 });
+function askFullscreen() {
+	if (gl.requestFullscreen) {
+		gl.requestFullscreen();
+	} else if (gl.mozRequestFullScreen) { /* Firefox */
+		gl.mozRequestFullScreen();
+	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+		gl.webkitRequestFullscreen();
+	} else if (gl.msRequestFullscreen) { /* IE/Edge */
+		gl.msRequestFullscreen();
+	}
+	gl.style.width = '100%';
+	gl.style.height = '100%';
+}
 // --------- controls
 
 // controls = new THREE.OrbitControls(camera, renderer.domElement);
