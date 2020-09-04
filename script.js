@@ -32,7 +32,7 @@ gl.appendChild(renderer.domElement);
 document.getElementById('play').addEventListener('click', function(){
 	controls = new THREE.DeviceOrientationControls(camera);
 	controls.connect(); // do it twice! ... (once at the Ctor above)
-	askFullscreen();
+	// askFullscreen();
 	hide();
 	loop();
 });
@@ -45,7 +45,7 @@ function askFullscreen() {
 		gl.webkitRequestFullscreen();
 	} else if (gl.msRequestFullscreen) { /* IE/Edge */
 		gl.msRequestFullscreen();
-	} else { window.scrollTo(0,1) }
+	}
 	// gl.style.width = '100%';
 	// gl.style.height = '100%';
 	// console.log(gl.requestFullscreen.toString());
