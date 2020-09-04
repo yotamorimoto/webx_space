@@ -30,10 +30,10 @@ gl.appendChild(renderer.domElement);
 
 // --------- start
 document.getElementById('play').addEventListener('click', function(){
-	loop();
-	hide();
 	controls = new THREE.DeviceOrientationControls(camera, true);
 	controls.connect();
+	hide();
+	loop();
 });
 // --------- controls
 
