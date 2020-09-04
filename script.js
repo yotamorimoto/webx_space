@@ -30,8 +30,7 @@ gl.appendChild(renderer.domElement);
 
 // --------- start
 document.getElementById('play').addEventListener('click', function(){
-	controls = new THREE.DeviceOrientationControls(camera, true);
-	controls.connect();
+	controls = new THREE.DeviceOrientationControls(camera);
 	hide();
 	loop();
 });
@@ -106,10 +105,10 @@ function loop(){
 	controls.update();
 	renderer.render(scene, camera);
 };
-// resize
+// --------- resize
 function onWindowResize(){
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener('resize', onWindowResize, false);
