@@ -1,0 +1,497 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Endless Forest</title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				background:#000000;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<script type="text/javascript" src="Three.js"></script>
+
+		<script type="text/javascript" src="data.js"></script>
+		<script type="text/javascript" src="Tween.js"></script>
+		<script type="text/javascript" src="AnimalRandom.js"></script>
+
+		<script type="text/javascript" src="RequestAnimationFrame.js"></script>
+		<script type="text/javascript" src="THREEx.WindowResize.js"></script>
+		<script type="text/javascript" src="info.js"></script>
+
+
+		<script type="text/javascript">
+
+			var container;
+			var stats;
+
+			var camera;
+			var scene;
+			var webglRenderer;
+
+			var render_gl = 1;
+			var has_gl = 0;
+
+			var r = 0;
+
+			var delta
+			var time;
+			var oldTime;
+
+			var numOfTrees = 150;
+			var treeArray = [];
+			var numOfRocks = 30;
+			var rockArray = [];
+			var numOfFlowers = 30;
+			var flowerArray = [];
+
+			var groundMesh1, groundMesh2;
+			var cameraTarget;
+			var particles1, particles2;
+			var moon;
+			var cloud;
+			var bird;
+			var particleScale = 1;
+			var musicLoaded = false;
+			var bgSprite;
+			var loadingSprite;
+			var initTime = new Date().getTime()+500;
+
+			if (Audio != undefined) {
+				var music = new Audio("sawdust_in_the_blood.ogg");
+				music.volume = 0.25;
+
+				music.addEventListener("loadeddata", function() {
+					loadingMusicDone();
+					this.play();
+				}, false);
+
+				if (typeof music.loop == "boolean") {
+					music.loop = true;
+				} else {
+					music.addEventListener("ended", function() {
+						this.currentTime = 0;
+						this.play();
+					}, false);
+				}
+			}
+
+			document.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
+
+			init(), animate();
+
+
+			function init() {
+
+				container = document.createElement('div');
+				document.body.appendChild(container);
+
+				var aspect = window.innerWidth / window.innerHeight;
+
+				camera = new THREE.Camera( 75, aspect, 1, 100000 );
+				camera.position.z = 0;
+				camera.position.x = 0;
+				camera.position.y = 0;
+
+				cameraTarget = new THREE.Object3D();
+				cameraTarget.position.z = -400;
+				camera.target = cameraTarget;
+
+				scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2( 0x473768, 0.0007 );
+
+				// Lights
+				// nope...
+
+				// Loading
+				var bgImage = THREE.ImageUtils.loadTexture( "black.png" );
+
+				bgSprite = new THREE.Sprite( { map: bgImage, useScreenCoordinates: true } );
+				bgSprite.position.set( window.innerWidth >> 1, window.innerHeight >> 1, 0 );
+				bgSprite.scale.set(1000,1000);
+				scene.addChild( bgSprite );
+
+				var loadingImage = THREE.ImageUtils.loadTexture( "loading.png" );
+
+				loadingSprite = new THREE.Sprite( { map: loadingImage, useScreenCoordinates: true } );
+				loadingSprite.position.set( window.innerWidth >> 1, window.innerHeight >> 1, 1 );
+				scene.addChild( loadingSprite );
+
+
+				// Ground
+				var plane = new THREE.Plane( 8000, 20000, 9, 24 );
+
+				for ( var i = 0, l = plane.vertices.length; i < l; i++ ) {
+					var y = Math.floor(i/10);
+					var x = i-(y*10);
+					if (x==4 || x==5) {
+						plane.vertices[i].position.z = -60 + ((Math.random()*80)-40);
+					} else {
+						plane.vertices[i].position.z = (Math.random()*240)-120;
+					}
+					if (y == 0 || y == 24) {
+						plane.vertices[i].position.z = -60;
+					}
+				}
+
+				groundMesh1 = new THREE.Mesh( plane, new THREE.MeshBasicMaterial( { color: 0x060606 } ) );
+
+				groundMesh1.rotation.set(-Math.PI/2,0,0);
+				groundMesh1.position.y = -300;
+				groundMesh1.position.z = -10000;
+				scene.addObject( groundMesh1 );
+
+				groundMesh2 = new THREE.Mesh( plane, new THREE.MeshBasicMaterial( { color: 0x060606 } ) );
+
+				groundMesh2.rotation.set(-Math.PI/2,0,0);
+				groundMesh2.position.y = -300;
+				groundMesh2.position.z = -30000;
+				scene.addObject( groundMesh2 );
+
+
+				// Trees
+				var loader = new THREE.JSONLoader();
+				loader.load( { model: "tree.js", callback: treeLoaded } );
+
+				// Rocks
+				loader.load( { model: "rock1.js", callback: rockLoaded } );
+
+				// Flowers
+				loader.load( { model: "flower1.js", callback: flowerLoaded } );
+				loader.load( { model: "flower2.js", callback: flower2Loaded } );
+
+				// Bird
+				loader.load( { model: "raven.js", callback: birdLoaded } );
+
+				// Moon
+				var moonImage = THREE.ImageUtils.loadTexture( "moon.png" );
+
+				moon = new THREE.Sprite( { map: moonImage, useScreenCoordinates: false } );
+				moon.position.set( 300, 4300, -4600 );
+				moon.scale.set( 1.8, 1.8, 1.8 );
+				moon.opacity = 0.1;
+				scene.addChild( moon );
+
+				// Cloud
+				var cloudImage = THREE.ImageUtils.loadTexture( "cloud.png" );
+
+				cloud = new THREE.Sprite( { map: cloudImage, useScreenCoordinates: false } );
+				cloud.position.set( 300, 3350, -2350 );
+				cloud.scale.set( 8.5, 1.5, 1.5 );
+				cloud.opacity = 0.07;
+				scene.addChild( cloud );
+
+				// Particles
+				var geometry = new THREE.Geometry();
+
+				for (i = 0; i < 1000; i++) {
+					var vector = new THREE.Vector3( (Math.random() * 1500) - 750, (Math.random() * 1000) - 400, (Math.random() * 3000) - 1500 );
+					geometry.vertices.push( new THREE.Vertex( vector ) );
+				}
+
+				var particleImage = THREE.ImageUtils.loadTexture( "bob2.png" );
+				var particleMaterial = new THREE.ParticleBasicMaterial( { size: 8, map: particleImage, color: 0x9274ce, opacity: 0.25, transparent: true, depthTest: true, blending: THREE.NormalBlending } );
+
+				particles1 = new THREE.ParticleSystem( geometry, particleMaterial );
+				particles2 = new THREE.ParticleSystem( geometry, particleMaterial );
+
+				particles1.position.z = -1500;
+				particles2.position.z = -4500;
+
+				//particles1.sortParticles = true;
+				//particles2.sortParticles = true;
+
+				scene.addChild( particles1 );
+				scene.addChild( particles2 );
+
+				try {
+					webglRenderer = new THREE.WebGLRenderer( { scene: scene, clearColor: 0x473768, clearAlpha: 0.99 } );
+					webglRenderer.setSize( window.innerWidth, window.innerHeight );
+					container.appendChild( webglRenderer.domElement );
+					has_gl = 1;
+					THREEx.WindowResize(webglRenderer, camera);
+				}
+				catch (e) {
+					// need webgl
+					document.getElementById('info').innerHTML = "<P><BR><B>Note.</B> You need a modern browser that supports WebGL for this to run the way it is intended.<BR>For example. <a href='http://www.google.com/landing/chrome/beta/' target='_blank'>Google Chrome 9+</a> or <a href='http://www.mozilla.com/firefox/beta/' target='_blank'>Firefox 4+</a>.<BR><BR>If you are already using one of those browsers and still see this message, it's possible that you<BR>have old blacklisted GPU drivers. Try updating the drivers for your graphic card.<BR>Or try to set a '--ignore-gpu-blacklist' switch for the browser.</P><CENTER><BR><img src='../general/WebGL_logo.png' border='0'></CENTER>";
+					document.getElementById('info').style.display = "block";
+					return;
+				}
+
+			}
+
+			function loadingMusicDone() {
+
+				musicLoaded = true;
+				scene.removeChild( loadingSprite );
+				delete loadingSprite;
+
+				var alphaTween = new TWEEN.Tween(bgSprite)
+					.to({opacity: 0}, 1000)
+					.easing(TWEEN.Easing.Sinusoidal.EaseOut)
+					.onComplete(removeLoading);
+				alphaTween.start();
+
+			}
+
+			function removeLoading() {
+				scene.removeChild( bgSprite );
+				delete bgSprite;
+			}
+
+			function treeLoaded( geometry ) {
+
+				for (var i=0; i<numOfTrees; ++i ) {
+
+					var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial() );
+					var scale = 2+(Math.random()*1.5);
+					mesh.scale.set(scale*1.5,scale*2,scale*1.5);
+					mesh.rotation.set((Math.random()*0.2)-0.1,Math.random()*Math.PI,(Math.random()*0.2)-0.1);
+					mesh.position.set((Math.random()*4000)-2000,-400,(Math.random()*3000)-3000);
+					if (mesh.position.x < 200 && mesh.position.x > 0) {
+						mesh.position.x += 200;
+					}
+					if (mesh.position.x > -200 && mesh.position.x < 0) {
+						mesh.position.x -= 200;
+					}
+
+					scene.addChild(mesh);
+
+					treeArray.push(mesh);
+				}
+
+			}
+
+			function rockLoaded( geometry ) {
+
+				for (var i=0; i<numOfRocks; ++i ) {
+
+					var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial() );
+					var scale = 8+(Math.random()*5);
+					mesh.scale.set(scale,scale,scale);
+					mesh.rotation.set(0,Math.random()*Math.PI,0);
+					mesh.position.set((Math.random()*4000)-2000,-400,(Math.random()*3000)-3000);
+					if (mesh.position.x < 400 && mesh.position.x > 0) {
+						mesh.position.x += 400;
+					}
+					if (mesh.position.x > -400 && mesh.position.x < 0) {
+						mesh.position.x -= 400;
+					}
+
+					scene.addChild(mesh);
+
+					rockArray.push(mesh);
+				}
+
+			}
+
+			function flower2Loaded( geometry ) {
+				flowerLoaded(geometry, true);
+			}
+
+			function flowerLoaded( geometry, halfScale ) {
+				var half = Math.floor(numOfFlowers/2);
+
+				for (var i=0; i<half; ++i ) {
+
+					var mesh = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial() );
+					var scale = 1+(Math.random()*1);
+					if (halfScale) {
+						scale *= 0.6;
+					}
+					mesh.scale.set(scale,scale,scale);
+					mesh.rotation.set((Math.random()*0.6)-0.3,Math.random()*Math.PI,(Math.random()*0.6)-0.3);
+					mesh.position.set((Math.random()*1000)-500,-380,(Math.random()*3000)-3000);
+
+					scene.addChild(mesh);
+
+					flowerArray.push(mesh);
+				}
+
+			}
+
+			function birdLoaded( geometry ) {
+
+				var animal = ROME.Animal( geometry, false );
+				bird = animal.mesh;
+				var scale = 6;
+
+				bird.scale.set(scale,scale,scale);
+				bird.rotation.set(0,Math.PI,0);
+				bird.position.set(0,3000,-3500);
+
+				scene.addChild( bird );
+
+				animal.animalA.timeScale = 0.4;
+
+				animal.play( animal.availableAnimals[ 0 ], animal.availableAnimals[ 0 ], 0, Math.random(), Math.random() );
+
+			}
+
+
+			function run( delta ) {
+				// trees
+				for (var i=0; i<treeArray.length; ++i ) {
+
+					var mesh = treeArray[i];
+
+					// respawn
+					if (mesh.position.z > camera.position.z ) {
+						mesh.position.z -= 3000;
+
+						mesh.scale.set(0.1,0.1,0.1);
+						var scale = 2+(Math.random()*1.5);
+						var scaleTween = new TWEEN.Tween(mesh.scale)
+							.to({x: scale*1.5, y: scale*2, z: scale*1.5}, 2000)
+							.easing(TWEEN.Easing.Quintic.EaseOut);
+						scaleTween.start();
+					}
+
+				}
+
+				// rocks
+				for (var i=0; i<rockArray.length; ++i ) {
+
+					var mesh = rockArray[i];
+
+					// respawn
+					if (mesh.position.z > camera.position.z ) {
+						mesh.position.z -= 3000;
+					}
+
+				}
+
+				// flowers
+				for (var i=0; i<flowerArray.length; ++i ) {
+
+					var mesh = flowerArray[i];
+
+					mesh.scale.x = particleScale*1.2;
+					mesh.scale.z = particleScale*1.2;
+
+					// respawn
+					if (mesh.position.z > camera.position.z ) {
+						mesh.position.z -= 3000;
+					}
+
+				}
+
+				// particles respawn
+				if (particles1.position.z-1500 > camera.position.z ) {
+					particles1.position.z -= 6000;
+				}
+				if (particles2.position.z-1500 > camera.position.z ) {
+					particles2.position.z -= 6000;
+				}
+
+				// particles respawn
+				if (groundMesh1.position.z-10000 > camera.position.z ) {
+					groundMesh1.position.z -= 40000;
+				}
+				if (groundMesh2.position.z-10000 > camera.position.z ) {
+					groundMesh2.position.z -= 40000;
+				}
+
+			}
+
+			function animate() {
+				requestAnimationFrame( animate );
+				loop();
+			}
+
+			function loop() {
+
+				time = new Date().getTime();
+				delta = time - oldTime;
+				oldTime = time;
+
+				if (isNaN(delta) || delta > 1000 || delta == 0 ) {
+					delta = 1000/60;
+				}
+
+				if (musicLoaded) {
+
+					r += delta/2000;
+					run( delta );
+
+					var noise = Math.random()*2;
+
+					var musicTime = music.currentTime;
+					var frame = 6+Math.round(musicTime*24);
+
+					var bass = spectrumData[frame];
+					if (bass == undefined || bass == null) {
+						bass = 0;
+					}
+
+					camera.position.x = 50*Math.cos(r*2);
+					camera.position.y = 2*Math.sin(r*12)-150;
+
+					camera.up.x = Math.sin(r*12)/60;
+
+					cameraTarget.position.y = noise;
+					cameraTarget.position.x = 70*Math.sin(r);
+
+					var speed = delta/2;
+
+					camera.position.z -= speed;
+					cameraTarget.position.z -= speed;
+
+					if (moon) {
+						moon.position.z -= speed;
+					}
+
+					if (cloud) {
+						cloud.position.z -= speed;
+					}
+
+					if (bird) {
+						bird.position.x = 200*Math.cos(r);
+						bird.position.y = 3000+(Math.sin(r)*300);
+						bird.position.z = camera.position.z-3250+(Math.cos(r)*500);
+					}
+
+					var alpha = 0.25+(bass/50);
+
+					particles1.materials[0].opacity = alpha;
+					particles2.materials[0].opacity = alpha;
+
+					var scale = 1+(alpha);
+
+					particleScale += (scale-particleScale)/3;
+
+					particles1.materials[0].size = particleScale*8;
+					particles2.materials[0].size = particleScale*8;
+
+					particles1.position.x = 80*Math.cos(r*2);
+					particles1.position.y = Math.sin(r*2)+(scale*50);
+
+					particles2.position.x = 80*Math.cos(r*2);
+					particles2.position.y = Math.sin(r*2)+(scale*50);
+
+					THREE.AnimationHandler.update( delta );
+				} else {
+					if (loadingSprite) {
+						loadingSprite.position.set( window.innerWidth >> 1, window.innerHeight >> 1, 0 );
+						loadingSprite.rotation -= 0.08;
+					}
+				}
+
+				if (bgSprite) {
+					bgSprite.position.set( window.innerWidth >> 1, window.innerHeight >> 1, 0 );
+				}
+
+				TWEEN.update();
+
+				if ( render_gl && has_gl && time > initTime ) webglRenderer.render( scene, camera );
+
+			}
+
+
+		</script>
+		<div><canvas></div>
+	</body>
+</html>
