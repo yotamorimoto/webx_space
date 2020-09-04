@@ -86,19 +86,19 @@ const box    = new THREE.Mesh( boxGeo, boxMat );
 scene.add(box);
 
 function hide(){
-	let buffer = audioContext.createBuffer(1, 1, audioContext.sampleRate);
-	let dummy = audioContext.createBufferSource();
-	dummy.buffer = buffer;
-	dummy.connect(audioContext.destination);
-	dummy.start(0);
+	// let buffer = audioContext.createBuffer(1, 1, audioContext.sampleRate);
+	// let dummy = audioContext.createBufferSource();
+	// dummy.buffer = buffer;
+	// dummy.connect(audioContext.destination);
+	// dummy.start(0);
 	document.getElementById('play').remove();
 	// controls.autoRotate = true;
-	audioContext.resume();
+	// audioContext.resume();
 	// video.play();
-	if(mobile){
-		document.getElementById('text').style.color = 'transparent';
-		document.getElementById('text').style.backgroundColor = 'transparent';
-	}
+	// if(mobile){
+	// 	document.getElementById('text').style.color = 'transparent';
+	// 	document.getElementById('text').style.backgroundColor = 'transparent';
+	// }
 }
 
 function loop(){
