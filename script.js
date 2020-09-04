@@ -32,6 +32,7 @@ gl.appendChild(renderer.domElement);
 document.getElementById('play').addEventListener('click', function(){
 	controls = new THREE.DeviceOrientationControls(camera);
 	controls.connect(); // do it twice! ... (once at the Ctor above)
+	askFullscreen();
 	hide();
 	loop();
 });
