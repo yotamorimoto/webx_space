@@ -32,10 +32,11 @@ gl.appendChild(renderer.domElement);
 document.getElementById('play').addEventListener('click', function(){
 	loop();
 	hide();
+	controls = new THREE.DeviceOrientationControls(camera, true);
+	controls.connect();
 });
 // --------- controls
-controls = new THREE.DeviceOrientationControls(camera, true);
-controls.connect();
+
 // controls = new THREE.OrbitControls(camera, renderer.domElement);
 // controls.rotateUp(Math.PI / 4);
 // controls.target.set(
