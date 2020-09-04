@@ -37,19 +37,19 @@ document.getElementById('play').addEventListener('click', function(){
 	loop();
 });
 function askFullscreen() {
-	// if (gl.requestFullscreen) {
-	// 	gl.requestFullscreen();
-	// } else if (gl.mozRequestFullScreen) { /* Firefox */
-	// 	gl.mozRequestFullScreen();
-	// } else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-	// 	gl.webkitRequestFullscreen();
-	// } else if (gl.msRequestFullscreen) { /* IE/Edge */
-	// 	gl.msRequestFullscreen();
-	// }
+	if (gl.requestFullscreen) {
+		gl.requestFullscreen();
+	} else if (gl.mozRequestFullScreen) { /* Firefox */
+		gl.mozRequestFullScreen();
+	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+		gl.webkitRequestFullscreen();
+	} else if (gl.msRequestFullscreen) { /* IE/Edge */
+		gl.msRequestFullscreen();
+	} else { window.scrollTo(0,1) }
 	// gl.style.width = '100%';
 	// gl.style.height = '100%';
-	console.log(gl.requestFullscreen.toString());
-	console.log(gl.webkitRequestFullscreen.toString());
+	// console.log(gl.requestFullscreen.toString());
+	// console.log(gl.webkitRequestFullscreen.toString());
 }
 // --------- controls
 
