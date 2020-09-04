@@ -9,9 +9,9 @@ if(
  || navigator.userAgent.match(/Windows Phone/i)
 ){mobile=true};
 
-if(mobile){
-	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
-}
+// if(mobile){
+// 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
+// }
 var controls;
 
 const gl = document.getElementById('gl');
