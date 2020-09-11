@@ -122,9 +122,9 @@ for (var i=0; i<500; i++) {
 		chooseFrom(geometry),
 		material
 	);
-	mesh.position.x = Math.random() * 1000 - 500;
-	mesh.position.y = Math.random() * 1000 - 500;
-	mesh.position.z = Math.random() * 1000 - 500;
+	mesh.position.x = Math.random() * 500 - 250;
+	mesh.position.y = Math.random() * 500 - 250;
+	mesh.position.z = Math.random() * 500 - 250;
 	mesh.updateMatrix();
 	scene.add( mesh );
 }
