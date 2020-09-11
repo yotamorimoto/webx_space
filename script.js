@@ -12,7 +12,7 @@ if (
 // if(mobile){
 // 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
 // }
-var context, listener;
+var context, listener, sound;
 var controls;
 var objs = [];
 
@@ -57,6 +57,12 @@ function audio() {
 		listener = new THREE.AudioListener();
 		camera.add(listener);
     (async ()=> {
+			var audioLoader = new THREE.AudioLoader();
+			audioLoader.load( '2.mp3', function( buffer ) {
+				sound.setBuffer( buffer );
+				sound.setRefDistance( 1 );
+				sound.play();
+			});
       // verb = await makeResonance(context);
       // master = context.createGain();
       // bus = context.createGain();
@@ -66,6 +72,7 @@ function audio() {
       // master.gain.value = dbamp(lin(sldrVolume.value, -90, 6));
       // setTimeout(function tick(){ loop(); setTimeout(tick, linexp(sldrSpeed.value,0,1,800,80)) }, 1000);
     })();
+		makeObjects();
   } catch(e) { alert(e) }
 }
 function askFullscreen() {
@@ -123,20 +130,23 @@ var geometry = [
 ];
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 
-for (var i=0; i<250; i++) {
-	var mesh = new THREE.Mesh(
-		chooseFrom(geometry),
-		material
-	);
-	mesh.position.x = Math.random() * 10 - 5;
-	mesh.position.y = Math.random() * 10 - 5;
-	mesh.position.z = Math.random() * 10 - 5;
-	mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
-	mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
-	mesh.updateMatrix();
-	scene.add( mesh );
-	objs.push( mesh );
-}
+function makeObjects() {
+	for (var i=0; i<250; i++) {
+		var mesh = new THREE.Mesh(
+			chooseFrom(geometry),
+			material
+		);
+		mesh.position.x = Math.random() * 10 - 5;
+		mesh.position.y = Math.random() * 10 - 5;
+		mesh.position.z = Math.random() * 10 - 5;
+		mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
+		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
+		mesh.updateMatrix();
+		mesh.add(sound);
+		scene.add( mesh );
+		objs.push( mesh );
+	}
+};
 // --------- lights
 var light = new THREE.DirectionalLight( 0xffffff );
 light.position.set( 1, 2, 3 );
