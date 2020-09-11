@@ -24,7 +24,7 @@ scene.fog = new THREE.FogExp2( 0xffffff, 0.002 );
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 10;
+camera.position.z = 1;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
@@ -126,7 +126,7 @@ for (var i=0; i<500; i++) {
 	mesh.position.x = Math.random() * 10 - 5;
 	mesh.position.y = Math.random() * 10 - 5;
 	mesh.position.z = Math.random() * 10 - 5;
-	mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.1 + 0.01;
+	mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
 	mesh.updateMatrix();
 	scene.add( mesh );
 	objs.push( mesh );
