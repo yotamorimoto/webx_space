@@ -12,6 +12,7 @@ if(
 // if(mobile){
 // 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
 // }
+const context, listener;
 var controls;
 var objs = [];
 
@@ -19,8 +20,9 @@ const gl = document.getElementById('gl');
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xccccde );
-scene.fog = new THREE.FogExp2( 0xdefdef, 0.02 );
+scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 
+// --------- camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
 camera.position.y = 0;
@@ -45,9 +47,28 @@ document.getElementById('play').addEventListener('click', function(){
 		// controls.enableZoom = false;
 	}
 	// askFullscreen();
+	audio();
 	hide();
 	loop();
 });
+function audio() {
+	try {
+    AudioContext = window.AudioContext || window.webkitAudioContext;
+    context  = new AudioContext({ latencyHint: 2048/44100 });
+		listener = new THREE.AudioListener();
+		camera.add(listener);
+    (async ()=> {
+      // verb = await makeResonance(context);
+      // master = context.createGain();
+      // bus = context.createGain();
+      // bus.connect(verb);
+      // verb.connect(master);
+      // master.connect(context.destination);
+      // master.gain.value = dbamp(lin(sldrVolume.value, -90, 6));
+      // setTimeout(function tick(){ loop(); setTimeout(tick, linexp(sldrSpeed.value,0,1,800,80)) }, 1000);
+    })();
+  } catch(e) { alert(e) }
+}
 function askFullscreen() {
 	if (gl.requestFullscreen) {
 		gl.requestFullscreen();
@@ -82,15 +103,6 @@ document.getElementById('loading').remove();
 // setTimeout(ready, 1000);
 // function ready(){ document.getElementById('loading').remove() };
 
-// --------- audio
-// var audioContext = new AudioContext();
-// var foaRenderer = Omnitone.createFOARenderer(audioContext);
-// var audio = audioContext.createMediaElementSource(video);
-// foaRenderer.initialize().then(function() {
-//   audio.connect(foaRenderer.input);
-//   foaRenderer.output.connect(audioContext.destination);
-// });
-
 // --------- box
 // const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
 // const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
@@ -110,7 +122,6 @@ var geometry = [
 	new THREE.TorusGeometry( 10, 3, 6, 3 ),
 	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 2 )
 ];
-// var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 
 for (var i=0; i<250; i++) {
@@ -138,15 +149,7 @@ light = new THREE.AmbientLight( 0x222222 );
 scene.add( light );
 
 function hide(){
-	// let buffer = audioContext.createBuffer(1, 1, audioContext.sampleRate);
-	// let dummy = audioContext.createBufferSource();
-	// dummy.buffer = buffer;
-	// dummy.connect(audioContext.destination);
-	// dummy.start(0);
 	document.getElementById('play').remove();
-	// controls.autoRotate = true;
-	// audioContext.resume();
-	// video.play();
 	// if(mobile){
 	// 	document.getElementById('text').style.color = 'transparent';
 	// 	document.getElementById('text').style.backgroundColor = 'transparent';
@@ -160,7 +163,6 @@ function loop(){
 		var obj = objs[i];
 		obj.position.x = 5 * Math.cos( t + i );
 		obj.position.y = 5 * Math.sin( t + i * 1.1 );
-
 	}
 	controls.update();
 	renderer.render(scene, camera);
