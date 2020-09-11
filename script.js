@@ -1,5 +1,4 @@
-const numGrain =  400;
-const numHoa =  10;
+const numGrain =  200;
 let mobile = false;
 if (
 	  navigator.userAgent.match(/Android/i)
@@ -181,7 +180,7 @@ function loop(){
 		var obj = objs[i];
 		obj.position.x = 5 * Math.cos( t + i );
 		obj.position.y = 5 * Math.sin( t + i * 1.1);
-		obj.position.z = 3 * Math.sin( t + i * i);
+		obj.position.z = 4 * Math.cos( t + i * 1.13);
 	}
 	controls.update();
 	renderer.render(scene, camera);
