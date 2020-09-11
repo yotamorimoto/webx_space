@@ -37,6 +37,7 @@ document.getElementById('play').addEventListener('click', function(){
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.autoRotateSpeed = 0.2;
 		controls.enableZoom = false;
+		controls.autoRotate = true;
 	}
 	askFullscreen();
 	hide();
