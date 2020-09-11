@@ -102,18 +102,15 @@ function chooseFrom(array){
   return array[Math.floor(Math.random()*array.length)]
 }
 var geometry = [
-	new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 ),
-	new THREE.BoxGeometry( 10, 10, 10 ),
 	new THREE.ConeGeometry( 5, 20, 32 ),
 	new THREE.CylinderGeometry( 5, 5, 20, 32 ),
 	new THREE.DodecahedronGeometry(10, 0),
 	new THREE.DodecahedronGeometry(10, 0),
 	new THREE.OctahedronGeometry(10, 0),
-	new THREE.RingGeometry( 1, 5, 32 ),
 	new THREE.SphereGeometry( 5, 32, 32 ),
 	new THREE.TetrahedronGeometry(10, 0),
 	new THREE.TorusGeometry( 10, 3, 6, 3 ),
-	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 3 )
+	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 2 )
 ];
 // var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
@@ -126,6 +123,7 @@ for (var i=0; i<500; i++) {
 	mesh.position.x = Math.random() * 10 - 5;
 	mesh.position.y = Math.random() * 10 - 5;
 	mesh.position.z = Math.random() * 10 - 5;
+	mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
 	mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
 	mesh.updateMatrix();
 	scene.add( mesh );
