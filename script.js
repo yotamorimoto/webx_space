@@ -180,7 +180,7 @@ function loop(){
 	for (var i = 0, il = objs.length; i < il; i ++ ) {
 		var obj = objs[i];
 		obj.position.x = 10 * Math.cos( t + i );
-		obj.position.y = 10 * Math.sin( t + i * 1.1 );
+		// obj.position.y = 10 * Math.sin( t + i * 1.1 );
 		obj.position.z = 10 * Math.sin( t + i * 1.3);
 	}
 	controls.update();
