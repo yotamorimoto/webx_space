@@ -103,8 +103,6 @@ function chooseFrom(array){
 }
 var geometry = [
 	new THREE.ConeGeometry( 5, 20, 32 ),
-	new THREE.CylinderGeometry( 5, 5, 20, 32 ),
-	new THREE.DodecahedronGeometry(10, 0),
 	new THREE.DodecahedronGeometry(10, 0),
 	new THREE.OctahedronGeometry(10, 0),
 	new THREE.SphereGeometry( 5, 32, 32 ),
@@ -115,7 +113,7 @@ var geometry = [
 // var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 
-for (var i=0; i<500; i++) {
+for (var i=0; i<250; i++) {
 	var mesh = new THREE.Mesh(
 		chooseFrom(geometry),
 		material
