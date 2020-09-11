@@ -115,7 +115,7 @@ var geometry = [
 	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 3 )
 ];
 // var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
-var material = new THREE.MeshToonMaterial({ color: 0x99aabb });
+var material = new THREE.MeshToonMaterial({ color: 0x9999ab, wireframe: true });
 
 for (var i=0; i<500; i++) {
 	var mesh = new THREE.Mesh(
@@ -135,7 +135,7 @@ scene.add( light );
 var light = new THREE.DirectionalLight( 0x882288 );
 light.position.set( - 1, - 1, - 1 );
 scene.add( light );
-var light = new THREE.AmbientLight( 0x22aa22 );
+var light = new THREE.AmbientLight( 0x222233 );
 scene.add( light );
 
 function hide(){
