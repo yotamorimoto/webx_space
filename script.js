@@ -175,6 +175,7 @@ function hide(){
 }
 
 function loop(){
+	console.log(camera.position.z);
 	var t = 0.0001 * Date.now();
 	requestAnimationFrame(loop);
 	for (var i = 0, il = objs.length; i < il; i ++ ) {
