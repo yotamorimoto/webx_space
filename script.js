@@ -90,11 +90,32 @@ document.getElementById('loading').remove();
 //   foaRenderer.output.connect(audioContext.destination);
 // });
 
-// --------- draw
+// --------- box
 const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
 const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
 const box    = new THREE.Mesh( boxGeo, boxMat );
 scene.add(box);
+
+// --------- things
+var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
+var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+for (var i=0; i<500; i++) {
+	var mesh = new THREE.Mesh( geometry, material );
+	mesh.position.x = Math.random() * 1600 - 800;
+	mesh.position.y = Math.random() * 160 - 80;
+	mesh.position.z = Math.random() * 1600 - 800;
+	mesh.updateMatrix();
+	scene.add( mesh );
+}
+// --------- lights
+var light = new THREE.DirectionalLight( 0xffffff );
+light.position.set( 1, 1, 1 );
+scene.add( light );
+var light = new THREE.DirectionalLight( 0x002288 );
+light.position.set( - 1, - 1, - 1 );
+scene.add( light );
+var light = new THREE.AmbientLight( 0x222222 );
+scene.add( light );
 
 function hide(){
 	// let buffer = audioContext.createBuffer(1, 1, audioContext.sampleRate);
