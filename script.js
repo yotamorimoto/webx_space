@@ -116,7 +116,7 @@ var geometry = [
 	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 3 )
 ];
 // var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
-var material = new THREE.MeshToonMaterial({ color: 0x9999ab, wireframe: true });
+var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 
 for (var i=0; i<500; i++) {
 	var mesh = new THREE.Mesh(
