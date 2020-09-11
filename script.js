@@ -1,5 +1,5 @@
-let mobile=false;
-if(
+let mobile = false;
+if (
 	  navigator.userAgent.match(/Android/i)
  || navigator.userAgent.match(/webOS/i)
  || navigator.userAgent.match(/iPhone/i)
@@ -7,17 +7,16 @@ if(
  || navigator.userAgent.match(/iPod/i)
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)
-){mobile=true};
+) { mobile = true };
 
 // if(mobile){
 // 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
 // }
-const context, listener;
+var context, listener;
 var controls;
 var objs = [];
 
 const gl = document.getElementById('gl');
-
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
@@ -53,7 +52,7 @@ document.getElementById('play').addEventListener('click', function(){
 });
 function audio() {
 	try {
-    AudioContext = window.AudioContext || window.webkitAudioContext;
+		AudioContext = window.AudioContext || window.webkitAudioContext;
     context  = new AudioContext({ latencyHint: 2048/44100 });
 		listener = new THREE.AudioListener();
 		camera.add(listener);
