@@ -132,10 +132,10 @@ for (var i=0; i<500; i++) {
 var light = new THREE.DirectionalLight( 0xffffff );
 light.position.set( 1, 1, 1 );
 scene.add( light );
-var light = new THREE.DirectionalLight( 0x002288 );
+var light = new THREE.DirectionalLight( 0x882288 );
 light.position.set( - 1, - 1, - 1 );
 scene.add( light );
-var light = new THREE.AmbientLight( 0x222222 );
+var light = new THREE.AmbientLight( 0x22aa22 );
 scene.add( light );
 
 function hide(){
