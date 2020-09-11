@@ -62,6 +62,7 @@ function audio() {
 			audioLoader.load( '2.mp3', function( buffer ) {
 				sound.setBuffer( buffer );
 				sound.setRefDistance( 1 );
+				sound.setLoop(true);
 				sound.play();
 			});
       // verb = await makeResonance(context);
@@ -143,7 +144,7 @@ function makeObjects() {
 		mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
 		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
 		mesh.updateMatrix();
-		mesh.add(sound.playbackRate = chooseFrom([0.125,0.25,0.5,1,1.5]));
+		mesh.add(sound.setPlaybackRate(chooseFrom([0.125,0.25,0.5,1,1.5])));
 		scene.add( mesh );
 		objs.push( mesh );
 	}
