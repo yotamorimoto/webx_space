@@ -129,12 +129,12 @@ for (var i=0; i<250; i++) {
 }
 // --------- lights
 var light = new THREE.DirectionalLight( 0xffffff );
-light.position.set( 1, 1, 1 );
+light.position.set( 1, 2, 3 );
 scene.add( light );
-var light = new THREE.DirectionalLight( 0x882288 );
-light.position.set( - 1, - 1, - 1 );
+light = new THREE.DirectionalLight( 0x888888 );
+light.position.set( 3, 2, 1 );
 scene.add( light );
-var light = new THREE.AmbientLight( 0x222233 );
+light = new THREE.AmbientLight( 0x222222 );
 scene.add( light );
 
 function hide(){
