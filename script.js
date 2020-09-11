@@ -45,6 +45,7 @@ document.getElementById('play').addEventListener('click', function(){
 		controls.autoRotateSpeed = 1.6789;
 		controls.autoRotate = true;
 		controls.enableZoom = false;
+		camera.position.z = 0.1; // ????
 	}
 	// askFullscreen();
 	audio();
