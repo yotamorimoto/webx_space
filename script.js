@@ -13,6 +13,7 @@ if(
 // 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
 // }
 var controls;
+var objs = [];
 
 const gl = document.getElementById('gl');
 
@@ -20,7 +21,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xdddddd );
 scene.fog = new THREE.FogExp2( 0xffffff, 0.002 );
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1100);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
 camera.position.y = 0;
 camera.position.z = 10;
@@ -122,11 +123,13 @@ for (var i=0; i<500; i++) {
 		chooseFrom(geometry),
 		material
 	);
-	mesh.position.x = Math.random() * 500 - 250;
-	mesh.position.y = Math.random() * 500 - 250;
-	mesh.position.z = Math.random() * 500 - 250;
+	mesh.position.x = Math.random() * 10 - 5;
+	mesh.position.y = Math.random() * 10 - 5;
+	mesh.position.z = Math.random() * 10 - 5;
+	mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
 	mesh.updateMatrix();
 	scene.add( mesh );
+	objs.push( mesh );
 }
 // --------- lights
 var light = new THREE.DirectionalLight( 0xffffff );
@@ -155,7 +158,14 @@ function hide(){
 }
 
 function loop(){
+	var t = 0.0001 * Date.now();
 	requestAnimationFrame(loop);
+	for (var i = 0, il = objs.length; i < il; i ++ ) {
+		var obj = objs[i];
+		obj.position.x = 5 * Math.cos( t + i );
+		obj.position.y = 5 * Math.sin( t + i * 1.1 );
+
+	}
 	controls.update();
 	renderer.render(scene, camera);
 };
