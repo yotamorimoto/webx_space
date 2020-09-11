@@ -61,7 +61,7 @@ function audio() {
 			var audioLoader = new THREE.AudioLoader();
 			audioLoader.load( '2.mp3', function( buffer ) {
 				for (var i=0; i<10; i++) {
-					sound.add(new THREE.PositionalAudio(listener));
+					sound.push( new THREE.PositionalAudio(listener) );
 					sound[i].setBuffer( buffer );
 					sound[i].setRefDistance( 1 );
 					sound[i].setLoop(true);
