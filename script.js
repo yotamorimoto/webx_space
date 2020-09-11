@@ -97,10 +97,29 @@ const box    = new THREE.Mesh( boxGeo, boxMat );
 scene.add(box);
 
 // --------- things
-var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
+function chooseFrom(array){
+  return array[Math.floor(Math.random()*array.length)]
+}
+var geometry = [
+	new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 ),
+	new THREE.BoxGeometry( 10, 10, 10 ),
+	new THREE.ConeGeometry( 5, 20, 32 ),
+	new THREE.CylinderGeometry( 5, 5, 20, 32 ),
+	new THREE.DodecahedronGeometry(10, 0),
+	new THREE.DodecahedronGeometry(10, 0),
+	new THREE.OctahedronGeometry(10, 0),
+	new THREE.RingGeometry( 1, 5, 32 ),
+	new THREE.SphereGeometry( 5, 32, 32 ),
+	new THREE.TetrahedronGeometry(10, 0),
+	new THREE.TorusGeometry( 10, 3, 6, 3 ),
+	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 3 )
+];
 var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 for (var i=0; i<500; i++) {
-	var mesh = new THREE.Mesh( geometry, material );
+	var mesh = new THREE.Mesh(
+		chooseFrom(geometry),
+		material
+	);
 	mesh.position.x = Math.random() * 1600 - 800;
 	mesh.position.y = Math.random() * 160 - 80;
 	mesh.position.z = Math.random() * 1600 - 800;
