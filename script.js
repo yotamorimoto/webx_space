@@ -60,7 +60,7 @@ function audio() {
     (async ()=> {
 			var audioLoader = new THREE.AudioLoader();
 			audioLoader.load( '2.mp3', function( buffer ) {
-				for (var i=0; i<250; i++) {
+				for (var i=0; i<10; i++) {
 					sound[i] = new THREE.PositionalAudio(listener);
 					sound[i].setBuffer( buffer );
 					sound[i].setRefDistance( 1 );
@@ -136,7 +136,7 @@ var geometry = [
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 
 function makeObjects() {
-	for (var i=0; i<250; i++) {
+	for (var i=0; i<10; i++) {
 		var mesh = new THREE.Mesh(
 			chooseFrom(geometry),
 			material
