@@ -65,6 +65,7 @@ function audio() {
 					sound[i].setBuffer( buffer );
 					sound[i].setRefDistance( 1 );
 					sound[i].setLoop(true);
+					sound[i].setPlaybackRate(chooseFrom([0.125,0.25,0.5,1,1.5]));
 					sound[i].play();
 				}
 			});
@@ -147,7 +148,7 @@ function makeObjects() {
 		mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
 		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
 		mesh.updateMatrix();
-		mesh.add(sound[i].setPlaybackRate(chooseFrom([0.125,0.25,0.5,1,1.5])));
+		mesh.add(sound[i]);
 		scene.add( mesh );
 		objs.push( mesh );
 	}
