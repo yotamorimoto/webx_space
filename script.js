@@ -17,9 +17,9 @@ var controls;
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1100);
-// camera.position.x = 0;
-// camera.position.y = 0;
-// camera.position.z = 0;
+camera.position.x = 0;
+camera.position.y = 0;
+camera.position.z = 0;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
@@ -56,8 +56,6 @@ function askFullscreen() {
 	gl.style.height = '100%';
 }
 // --------- controls
-
-//
 // controls.rotateUp(Math.PI / 4);
 // controls.target.set(
 // 	camera.position.x + 0.1,
