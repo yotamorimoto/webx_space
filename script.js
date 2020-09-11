@@ -26,7 +26,7 @@ scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 1;
+camera.position.z = 5;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
@@ -42,9 +42,9 @@ document.getElementById('play').addEventListener('click', function(){
 		controls.connect(); // do it twice! ... (once at the Ctor above)
 	} else {
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
-		// controls.autoRotateSpeed = 0.2;
+		controls.autoRotateSpeed = 1.6789;
 		controls.autoRotate = true;
-		// controls.enableZoom = false;
+		controls.enableZoom = false;
 	}
 	// askFullscreen();
 	audio();
