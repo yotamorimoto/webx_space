@@ -55,6 +55,7 @@ function audio() {
 		AudioContext = window.AudioContext || window.webkitAudioContext;
     context  = new AudioContext({ latencyHint: 2048/44100 });
 		listener = new THREE.AudioListener();
+		sound    = new THREE.PositionalAudio(listener);
 		camera.add(listener);
     (async ()=> {
 			var audioLoader = new THREE.AudioLoader();
@@ -142,7 +143,7 @@ function makeObjects() {
 		mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
 		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
 		mesh.updateMatrix();
-		mesh.add(sound);
+		mesh.add(sound.playbackRate = chooseFrom([0.125,0.25,0.5,1,1.5]));
 		scene.add( mesh );
 		objs.push( mesh );
 	}
