@@ -18,8 +18,8 @@ var objs = [];
 const gl = document.getElementById('gl');
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xdddddd );
-scene.fog = new THREE.FogExp2( 0xffffff, 0.002 );
+scene.background = new THREE.Color( 0xccccde );
+scene.fog = new THREE.FogExp2( 0xdefdef, 0.02 );
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
