@@ -179,9 +179,9 @@ function loop(){
 	requestAnimationFrame(loop);
 	for (var i = 0, il = objs.length; i < il; i ++ ) {
 		var obj = objs[i];
-		obj.position.x = 10 * Math.cos( t + i );
-		// obj.position.y = 10 * Math.sin( t + i * 1.1 );
-		obj.position.z = 10 * Math.sin( t + i * 1.3);
+		obj.position.x = 5 * Math.cos( t + i );
+		obj.position.y = 5 * Math.sin( t + i * 1.1);
+		obj.position.z = 3 * Math.sin( t + i * i);
 	}
 	controls.update();
 	renderer.render(scene, camera);
