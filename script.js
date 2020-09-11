@@ -1,4 +1,5 @@
-const numObj =  100;
+const numGrain =  400;
+const numHoa =  10;
 let mobile = false;
 if (
 	  navigator.userAgent.match(/Android/i)
@@ -59,18 +60,18 @@ function audio() {
 		sound    = [];
 		camera.add(listener);
     (async ()=> {
-			var audioLoader = new THREE.AudioLoader();
-			audioLoader.load( '2.mp3', function( buffer ) {
-				for (var i=0; i<numObj; i++) {
-					sound.push( new THREE.PositionalAudio(listener) );
-					sound[i].setBuffer( buffer );
-					sound[i].setRefDistance( 1 );
-					sound[i].setLoop(true);
-					sound[i].setVolume(0.03);
-					sound[i].setPlaybackRate(chooseFrom([0.125,0.25,0.5,1,1.5]));
-					sound[i].play();
-				}
-			});
+			// var audioLoader = new THREE.AudioLoader();
+			// audioLoader.load( '2.mp3', function( buffer ) {
+			// 	for (var i=0; i<numHoa; i++) {
+			// 		sound.push( new THREE.PositionalAudio(listener) );
+			// 		sound[i].setBuffer( buffer );
+			// 		sound[i].setRefDistance( 1 );
+			// 		sound[i].setLoop(true);
+			// 		sound[i].setVolume(0.03);
+			// 		sound[i].setPlaybackRate(chooseFrom([0.125,0.25,0.5,1,1.5]));
+			// 		sound[i].play();
+			// 	}
+			// });
       // verb = await makeResonance(context);
       // master = context.createGain();
       // bus = context.createGain();
@@ -139,7 +140,7 @@ var geometry = [
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 
 function makeObjects() {
-	for (var i=0; i<numObj; i++) {
+	for (var i=0; i<numGrain; i++) {
 		var mesh = new THREE.Mesh(
 			chooseFrom(geometry),
 			material
@@ -150,7 +151,7 @@ function makeObjects() {
 		mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
 		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
 		mesh.updateMatrix();
-		mesh.add(sound[i]);
+		// mesh.add(sound[i]);
 		scene.add( mesh );
 		objs.push( mesh );
 	}
@@ -178,8 +179,8 @@ function loop(){
 	requestAnimationFrame(loop);
 	for (var i = 0, il = objs.length; i < il; i ++ ) {
 		var obj = objs[i];
-		obj.position.x = 5 * Math.cos( t + i );
-		obj.position.y = 5 * Math.sin( t + i * 1.1 );
+		obj.position.x = 10 * Math.cos( t + i );
+		obj.position.y = 10 * Math.sin( t + i * 1.1 );
 	}
 	controls.update();
 	renderer.render(scene, camera);
