@@ -50,7 +50,7 @@
     	position: fixed;
       z-index: -1;
       width: 100%;
-      color: black;
+      color: #ccccde;
       top: 25px; left: 0; right: 0; bottom: 0;
       font-size: 45px;
     	font-style: italic;
@@ -83,6 +83,10 @@
       top: 0; left: 0; right: 0; bottom: 0;
 			/* user-select: none; */
     }
+		/* MUST AT THE END */
+		@media (orientation: portrait){
+			#info { font-size: 20vw }
+		}
     </style>
 		<script src='three.min.js'></script>
 		<!-- <script src='omnitone.min.js'></script> -->
