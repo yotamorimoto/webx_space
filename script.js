@@ -30,8 +30,14 @@ gl.appendChild(renderer.domElement);
 
 // --------- start
 document.getElementById('play').addEventListener('click', function(){
-	controls = new THREE.DeviceOrientationControls(camera);
-	controls.connect(); // do it twice! ... (once at the Ctor above)
+	if(mobile){
+		controls = new THREE.DeviceOrientationControls(camera);
+		controls.connect(); // do it twice! ... (once at the Ctor above)
+	} else {
+		controls = new THREE.OrbitControls(camera, renderer.domElement);
+		controls.autoRotateSpeed = 0.2;
+		controls.enableZoom = false;
+	}
 	askFullscreen();
 	hide();
 	loop();
@@ -51,7 +57,7 @@ function askFullscreen() {
 }
 // --------- controls
 
-// controls = new THREE.OrbitControls(camera, renderer.domElement);
+//
 // controls.rotateUp(Math.PI / 4);
 // controls.target.set(
 // 	camera.position.x + 0.1,
@@ -60,21 +66,9 @@ function askFullscreen() {
 // );
 // controls.noZoom = true;
 // controls.noPan = true;
-// function setOrientationControls(e) {
-// 	if (!e.alpha) { return }
-// 	controls = new THREE.DeviceOrientationControls(camera, true);
-// 	controls.connect();
-// 	controls.update();
-// 	// renderer.domElement.addEventListener('click', fullscreen, false);
-// 	window.removeEventListener('deviceorientation', setOrientationControls, true);
-// }
-// window.addEventListener('deviceorientation', setOrientationControls, true);
 
 // var controls
 // controls = new THREE.OrbitControls(camera, renderer.domElement);
-// controls.autoRotateSpeed = 0.2;
-// controls.enableZoom = false;
-
 // controls.addEventListener('change', function(e) {
 // 	foaRenderer.setRotationMatrix4(camera.matrixWorld.elements);
 // });
