@@ -17,8 +17,8 @@ var controls;
 const gl = document.getElementById('gl');
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xffffff );
-scene.fog = new THREE.FogExp2( 0x000000, 0.002 );
+scene.background = new THREE.Color( 0xdddddd );
+scene.fog = new THREE.FogExp2( 0xffffff, 0.002 );
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1100);
 camera.position.x = 0;
@@ -91,10 +91,10 @@ document.getElementById('loading').remove();
 // });
 
 // --------- box
-const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
-const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
-const box    = new THREE.Mesh( boxGeo, boxMat );
-scene.add(box);
+// const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
+// const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
+// const box    = new THREE.Mesh( boxGeo, boxMat );
+// scene.add(box);
 
 // --------- things
 function chooseFrom(array){
@@ -120,9 +120,9 @@ for (var i=0; i<500; i++) {
 		chooseFrom(geometry),
 		material
 	);
-	mesh.position.x = Math.random() * 1600 - 800;
-	mesh.position.y = Math.random() * 160 - 80;
-	mesh.position.z = Math.random() * 1600 - 800;
+	mesh.position.x = Math.random() * 1000 - 500;
+	mesh.position.y = Math.random() * 1000 - 500;
+	mesh.position.z = Math.random() * 1000 - 500;
 	mesh.updateMatrix();
 	scene.add( mesh );
 }
