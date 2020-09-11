@@ -30,16 +30,16 @@ gl.appendChild(renderer.domElement);
 
 // --------- start
 document.getElementById('play').addEventListener('click', function(){
-	if(mobile){
+	if (mobile) {
 		controls = new THREE.DeviceOrientationControls(camera);
 		controls.connect(); // do it twice! ... (once at the Ctor above)
 	} else {
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
-		controls.autoRotateSpeed = 0.2;
-		controls.enableZoom = false;
+		// controls.autoRotateSpeed = 0.2;
 		controls.autoRotate = true;
+		// controls.enableZoom = false;
 	}
-	askFullscreen();
+	// askFullscreen();
 	hide();
 	loop();
 });
