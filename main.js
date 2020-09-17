@@ -148,13 +148,13 @@ function loop(){
 		let s = new THREE.Spherical();
 		vec3[i].x = 3*Math.cos(t+i);
 		vec3[i].y = 3*Math.sin(t+i*1.1);
-		vec3[i].z = 3*Math.sin(t+i*1.789);
+		vec3[i].z = 3*Math.cos(t+i*1.789);
 		o.position.x = vec3[i].x * 2;
 		o.position.y = vec3[i].y * 2;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
-		lo[i].gain.value = 6-d;
+		lo[i].gain.value = 12-(d*3);
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
