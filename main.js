@@ -55,7 +55,14 @@ document.getElementById('play').addEventListener('click', function(){
 	load();
 	hide();
 });
-function load() {
+function loadSound(url) {
+	return fetch(url)
+	.then(data => data.arrayBuffer())
+	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+	.then(decodedBuffer => { sound.push(decodedBuffer) })
+	;
+}
+async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context  = new AudioContext({ latencyHint: 2048/44100 });
 	decoder = new ambisonics.binDecoder(context, maxOrder);
@@ -66,21 +73,9 @@ function load() {
 		decoder.updateFilters(buffer);
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	fetch('2.mp3')
-	.then(data => data.arrayBuffer())
-	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-	.then(decodedBuffer => { sound.push(decodedBuffer) })
-	;
-	fetch('9.mp3')
-	.then(data => data.arrayBuffer())
-	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-	.then(decodedBuffer => { sound.push(decodedBuffer) })
-	;
-	fetch('11.mp3')
-	.then(data => data.arrayBuffer())
-	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-	.then(decodedBuffer => { sound.push(decodedBuffer) })
-	;
+	await loadSound('2.mp3');
+	await loadSound('9.mp3');
+	await loadSound('11.mp3');
 }
 // --------- things
 function chooseFrom(array){
