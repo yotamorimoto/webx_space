@@ -126,7 +126,7 @@ function play() {
 		amp.push(context.createGain());
 		node.buffer = chooseFrom(sound);
 		node.loop = true;
-		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5, 1.5]);
+		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5]);
 		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
 		amp[i].gain.value =  1/d * ampFactor;
