@@ -152,7 +152,7 @@ function loop(){
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
-		lo[i].gain.value = lo[i].gain.value = 6-d;
+		lo[i].gain.value = 6-d;
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
