@@ -133,7 +133,7 @@ function play() {
 function loop(){
 	var t = 0.0001 * Date.now();
 	requestAnimationFrame(loop);
-	for (let i=0; i<numGrainh; i++) {
+	for (let i=0; i<numGrain; i++) {
 		let obj = objs[i];
 		let sph = new THREE.Spherical(1,0,0);
 		obj.position.x = pos3[i].x = Math.cos(t+i);
