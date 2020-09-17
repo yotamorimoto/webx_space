@@ -1,4 +1,4 @@
-const numGrain =  10;
+const numGrain =  30;
 const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
@@ -122,7 +122,7 @@ function play() {
 		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
 		sound.connect(amp);
 		amp.connect(enc[i].in);
-		amp.gain.value = 0.03;
+		amp.gain.value = 1 / numGrain;
 		enc[i].azim = sph.phi * 180;
 		enc[i].elev = sph.theta * 180;
 		enc[i].out.connect(rotator.in);
@@ -143,8 +143,8 @@ function loop(){
 		o.position.y = pos3[i].y * 5;
 		o.updateMatrix();
 		sph.setFromVector3(pos3[i]);
-		enc[i].azim = sph.phi * 180;
-		enc[i].elev = sph.theta * 180;
+		enc[i].azim = sph.phi*180/Math.PI;
+		enc[i].elev = sph.theta*180/Math.PI;
 		enc[i].updateGains();
 	}
 	controls.update();
