@@ -150,9 +150,9 @@ function loop(){
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
 		vec3[i].z = Math.cos(t+i*1.789)+Math.PI;
-		o.position.x = vec3[i].x*2;
-		o.position.y = vec3[i].y*2;
-		o.position.z = vec3[i].z*2;
+		o.position.x = vec3[i].x*5;
+		o.position.y = vec3[i].y*5;
+		o.position.z = vec3[i].z*5;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
@@ -162,9 +162,9 @@ function loop(){
 		enc[i].updateGains();
 	}
 	controls.update();
-	rotator.yaw = camera.rotation.y*180/Math.PI;
+	rotator.yaw = -camera.rotation.y*180/Math.PI;
 	rotator.pitch = -camera.rotation.x*180/Math.PI;
-	rotator.roll = -camera.rotation.z*180/Math.PI;
+	rotator.roll = camera.rotation.z*180/Math.PI;
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
 };
