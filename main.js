@@ -163,7 +163,7 @@ function loop(){
 	}
 	controls.update();
 	rotator.yaw = camera.rotation.y*180/Math.PI;
-	rotator.pitch = camera.rotation.x*180/Math.PI;
+	rotator.pitch = -camera.rotation.x*180/Math.PI;
 	rotator.roll = camera.rotation.z*180/Math.PI;
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
