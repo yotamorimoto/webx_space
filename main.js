@@ -4,7 +4,6 @@ const maxOrder = 3;
 var context, sound=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
-var controls;
 
 let mobile = false;
 if (
@@ -25,7 +24,7 @@ if (
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xccccde );
-scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
+scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 
 // --------- camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
