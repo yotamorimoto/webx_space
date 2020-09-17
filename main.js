@@ -1,13 +1,10 @@
 const numGrain =  30;
 const ampFactor = Math.sqrt(1/numGrain);
-const speedOfSound = 343;
-const earDistance = 0.22;
 const maxOrder = 3;
-var context, audio;
-var rotator, decoder, filters;
 var context, sound=[];
-var controls;
+var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
+var controls;
 
 let mobile = false;
 if (
