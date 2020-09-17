@@ -141,6 +141,7 @@ function play() {
 	}
 	console.log('synth init')
 	loop();
+	console.log('loop start')
 }
 function loop(){
 	var t = 0.0002 * Date.now();
@@ -155,18 +156,18 @@ function loop(){
 		o.position.y = vec3[i].y;
 		o.position.z = vec3[i].z;
 		o.updateMatrix();
-		// s.setFromVector3(vec3[i]);
-		// amp[i].gain.value = 1/d * ampFactor;
-		// lo[i].gain.value = 12-(d*9);
-		// enc[i].azim = s.phi*180/Math.PI;
-		// enc[i].elev = s.theta*180/Math.PI;
-		// enc[i].updateGains();
+		s.setFromVector3(vec3[i]);
+		amp[i].gain.value = 1/d * ampFactor;
+		lo[i].gain.value = 12-(d*9);
+		enc[i].azim = s.phi*180/Math.PI;
+		enc[i].elev = s.theta*180/Math.PI;
+		enc[i].updateGains();
 	}
 	controls.update();
-	// rotator.yaw = camera.rotation.y*180/Math.PI;
-	// rotator.pitch = camera.rotation.x*180/Math.PI;
-	// rotator.roll = camera.rotation.z*180/Math.PI;
-	// rotator.updateRotMtx();
+	rotator.yaw = camera.rotation.y*180/Math.PI;
+	rotator.pitch = camera.rotation.x*180/Math.PI;
+	rotator.roll = camera.rotation.z*180/Math.PI;
+	rotator.updateRotMtx();
 	// ----------------------------
 	renderer.render(scene, camera);
 };
