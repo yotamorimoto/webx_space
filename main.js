@@ -98,7 +98,7 @@ async function load() {
 	// ]).then(play);
 	console.log('timeout play');
 	// play();
-	setTimeout(play, 3000);
+	setTimeout(play, 5000);
 }
 // --------- things
 function chooseFrom(array){
