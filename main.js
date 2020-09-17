@@ -102,10 +102,13 @@ async function load() {
 	// ]).then(play);
 }
 // --------- things
+function randIndex(){
+  return Math.floor(Math.random()*url.length)
+}
 function chooseFrom(array){
   return array[Math.floor(Math.random()*array.length)]
 }
-var geometry = [
+const geometry = [
 	new THREE.ConeGeometry(5, 20, 32),
 	new THREE.DodecahedronGeometry(10, 0),
 	new THREE.OctahedronGeometry(10, 0),
@@ -128,7 +131,8 @@ scene.add(light);
 function play() {
 	document.getElementById('loading').remove();
 	for (let i=0; i<numGrain; i++) {
-		obj.push(new THREE.Mesh(chooseFrom(geometry), material));
+		let index = randIndex();
+		obj.push(new THREE.Mesh(geometry[index], material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
 		vec3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
 		obj[i].position.x = vec3[i].x;
@@ -147,7 +151,7 @@ function play() {
 		lo[i].gain.value = 0;
 		s.setFromVector3(vec3[i]);
 		amp.push(context.createGain());
-		node.buffer = chooseFrom(sound);
+		node.buffer = sound[index];
 		node.loop = true;
 		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1/1.5]);
 		node.connect(amp[i]);
