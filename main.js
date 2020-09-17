@@ -67,10 +67,10 @@ async function load() {
 	decoder = new ambisonics.binDecoder(context, maxOrder);
 	rotator = new ambisonics.sceneRotator(context, maxOrder)
 	decoder.out.connect(context.destination);
-	// filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
-	// 	console.log('successfully loaded HOA buffer:', buffer);
-	// 	decoder.updateFilters(buffer);
-	// });
+	filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
+		console.log('successfully loaded HOA buffer:', buffer);
+		decoder.updateFilters(buffer);
+	});
 	// filters.load('IRC_1076_C_HRIR_44100.sofa.json');
 	// Promise.all([
 	// 	loadSound('2.mp3'),
