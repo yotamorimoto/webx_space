@@ -26,7 +26,7 @@ scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 
 // --------- camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 20);
 camera.position.x = 0;
 camera.position.y = 0;
 camera.position.z = 1;
@@ -150,9 +150,9 @@ function loop(){
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
 		vec3[i].z = Math.cos(t+i*1.789)+Math.PI;
-		o.position.x = vec3[i].x*5;
-		o.position.y = vec3[i].y*5;
-		o.position.z = vec3[i].z*5;
+		o.position.x = vec3[i].x*2;
+		o.position.y = vec3[i].y*2;
+		o.position.z = vec3[i].z*3;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
