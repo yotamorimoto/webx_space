@@ -1,7 +1,7 @@
 const numGrain =  77;
 const ampFactor = Math.sqrt(1/numGrain);
 const maxOrder = 3;
-const url = ['2.mp3', '5.mp3', '9.mp3', '11.mp3', '14.mp3'];
+const url = ['0.mp3', '2.mp3', '5.mp3', '9.mp3', '11.mp3', '14.mp3'];
 var context, sound=[],lo=[],hi=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
@@ -149,7 +149,7 @@ function play() {
 		amp.push(context.createGain());
 		node.buffer = chooseFrom(sound);
 		node.loop = true;
-		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5]);
+		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1/1.5]);
 		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
 		amp[i].gain.value =  1/d * ampFactor;
