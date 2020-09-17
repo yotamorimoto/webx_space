@@ -72,9 +72,11 @@ async function load() {
 		decoder.updateFilters(buffer);
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	await loadSound('2.mp3');
-	await loadSound('9.mp3');
-	await loadSound('11.mp3');
+	Promise.all([
+		loadSound('2.mp3'),
+		loadSound('9.mp3'),
+		loadSound('11.mp3')
+	]).then(play);
 }
 // --------- things
 function chooseFrom(array){
