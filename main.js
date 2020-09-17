@@ -142,7 +142,7 @@ function loop(){
 		let s = new THREE.Spherical();
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
-		vec3[i].y = Math.sin(t+i*1.789);
+		vec3[i].z = Math.sin(t+i*1.789);
 		o.position.x = vec3[i].x * 2;
 		o.position.y = vec3[i].y * 2;
 		o.updateMatrix();
