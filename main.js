@@ -50,7 +50,7 @@ document.getElementById('play').addEventListener('click', function(){
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.autoRotateSpeed = 1.6789;
 		// controls.autoRotate = true;
-		controls.enableZoom = false;
+		// controls.enableZoom = false;
 		// camera.position.z = 0; // ????
 	}
 	// askFullscreen();
@@ -133,11 +133,16 @@ function play() {
 function loop(){
 	var t = 0.0001 * Date.now();
 	requestAnimationFrame(loop);
-	// for (var i = 0, il = objs.length; i < il; i ++ ) {
-	// 	var obj = objs[i];
-	// 	obj.position.x = 5 * Math.cos( t + i );
-	// 	obj.position.y = 5 * Math.sin( t + i * 1.1);
-	// }
+	for (let i=0; i<numGrainh; i++) {
+		let obj = objs[i];
+		let sph = new THREE.Spherical(1,0,0);
+		obj.position.x = pos3[i].x = Math.cos(t+i);
+		obj.position.y = pos3[i].y = Math.sin(t+i*1.1);
+		sph.setFromVector3(pos3[i]);
+		enc[i].azim = sph.phi * 180;
+		enc[i].elev = sph.theta * 180;
+		enc[i].updateGains();
+	}
 	controls.update();
 	rotator.yaw = camera.rotation.y*180/Math.PI;
 	rotator.pitch = -camera.rotation.x*180/Math.PI;
