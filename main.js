@@ -1,4 +1,4 @@
-const numGrain =  1;
+const numGrain =  10;
 const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
@@ -30,10 +30,10 @@ scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 
 // --------- camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0, 10);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 3;
+camera.position.z = 0;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
@@ -120,7 +120,7 @@ function play() {
 		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
 		sound.connect(amp[i]);
 		amp[i].connect(enc[i].in);
-		amp[i].gain.value = 1 / numGrain / Math.max(vec3[i].distanceTo(camera.position), 0.3);
+		amp[i].gain.value = 1 / numGrain / Math.pow(Math.max(vec3[i].distanceTo(camera.position), 0.3), 2);
 		enc[i].azim = s.phi*180;
 		enc[i].elev = s.theta*180;
 		enc[i].out.connect(rotator.in);
@@ -142,7 +142,7 @@ function loop(){
 		o.position.y = vec3[i].y * 5;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
-		amp[i].gain.value = 1 / numGrain / Math.max(vec3[i].distanceTo(camera.position), 0.3);
+		amp[i].gain.value = 1 / numGrain / Math.pow(Math.max(vec3[i].distanceTo(camera.position), 0.3), 2);
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
