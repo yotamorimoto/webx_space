@@ -29,8 +29,8 @@ scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 1;
-camera.rotation.reorder('YXZ');
+camera.position.z = 0.6;
+// camera.rotation.reorder('YXZ');
 
 // --------- renderer
 const renderer = new THREE.WebGLRenderer();
@@ -130,7 +130,7 @@ function play() {
 		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
 		amp[i].gain.value =  1/d * ampFactor;
-		lo[i].gain.value = 12-(d*3);
+		lo[i].gain.value = 12-(d*9);
 		enc[i].azim = s.phi*180;
 		enc[i].elev = s.theta*180;
 		enc[i].out.connect(rotator.in);
@@ -156,7 +156,7 @@ function loop(){
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
-		lo[i].gain.value = 12-(d*3);
+		lo[i].gain.value = 12-(d*9);
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
