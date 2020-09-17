@@ -116,29 +116,30 @@ function play() {
 		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
-		// let node = context.createBufferSource();
-		// let s    = new THREE.Spherical();
-		// let d    = Math.max(vec3[i].distanceTo(camera.position), 0.05);
-		// lo.push(context.createBiquadFilter());
-		// lo[i].type  = 'lowshelf';
-		// lo[i].frequency = 150;
-		// lo[i].gain.value = 0;
-		// s.setFromVector3(vec3[i]);
-		// amp.push(context.createGain());
-		// node.buffer = chooseFrom(sound);
-		// node.loop = true;
-		// node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5]);
-		// node.connect(amp[i]);
-		// amp[i].connect(enc[i].in);
-		// amp[i].gain.value =  1/d * ampFactor;
-		// lo[i].gain.value = 12-(d*9);
-		// enc[i].azim = s.phi*180;
-		// enc[i].elev = s.theta*180;
-		// enc[i].out.connect(rotator.in);
-		// enc[i].updateGains();
-		// rotator.out.connect(decoder.in);
-		// node.start();
+		let node = context.createBufferSource();
+		let s    = new THREE.Spherical();
+		let d    = Math.max(vec3[i].distanceTo(camera.position), 0.05);
+		lo.push(context.createBiquadFilter());
+		lo[i].type  = 'lowshelf';
+		lo[i].frequency = 150;
+		lo[i].gain.value = 0;
+		s.setFromVector3(vec3[i]);
+		amp.push(context.createGain());
+		node.buffer = chooseFrom(sound);
+		node.loop = true;
+		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5]);
+		node.connect(amp[i]);
+		amp[i].connect(enc[i].in);
+		amp[i].gain.value =  1/d * ampFactor;
+		lo[i].gain.value = 12-(d*9);
+		enc[i].azim = s.phi*180;
+		enc[i].elev = s.theta*180;
+		enc[i].out.connect(rotator.in);
+		enc[i].updateGains();
+		rotator.out.connect(decoder.in);
+		node.start();
 	}
+	console.log('synth init')
 	loop();
 }
 function loop(){
