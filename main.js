@@ -74,6 +74,7 @@ function load() {
 	.then(data => data.arrayBuffer())
 	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
 	.then(decodedBuffer => { audio = decodedBuffer })
+	.then(play())
 	;
 }
 // --------- things
