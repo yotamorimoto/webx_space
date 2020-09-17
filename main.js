@@ -26,11 +26,11 @@ scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 
 // --------- camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 20);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
 camera.position.x = 0;
 camera.position.y = 0;
 camera.position.z = 1;
-// camera.rotation.reorder('YXZ');
+camera.rotation.reorder('YXZ');
 
 // --------- renderer
 const renderer = new THREE.WebGLRenderer();
@@ -162,8 +162,8 @@ function loop(){
 		enc[i].updateGains();
 	}
 	controls.update();
-	rotator.yaw = -camera.rotation.y*180/Math.PI;
-	rotator.pitch = -camera.rotation.x*180/Math.PI;
+	rotator.yaw = camera.rotation.y*180/Math.PI;
+	rotator.pitch = camera.rotation.x*180/Math.PI;
 	rotator.roll = camera.rotation.z*180/Math.PI;
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
