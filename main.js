@@ -20,7 +20,6 @@ if (
 // 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
 // }
 
-
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xccccde );
@@ -116,14 +115,14 @@ function play() {
 		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.04+0.03;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
-		let sound = context.createBufferSource();
-		let s     = new THREE.Spherical();
+		let node = context.createBufferSource();
+		let s    = new THREE.Spherical();
 		s.setFromVector3(vec3[i]);
 		amp.push(context.createGain());
-		sound.buffer = chooseFrom(sound);
-		sound.loop = true;
-		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5, 1.5]);
-		sound.connect(amp[i]);
+		node.buffer = chooseFrom(sound);
+		node.loop = true;
+		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5, 1.5]);
+		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
 		amp[i].gain.value =  dist2amp(vec3[i], camera.position) * ampFactor;
 		enc[i].azim = s.phi*180;
@@ -131,7 +130,7 @@ function play() {
 		enc[i].out.connect(rotator.in);
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
-		sound.start();
+		node.start();
 	}
 	loop();
 }
