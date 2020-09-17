@@ -71,7 +71,7 @@ async function load() {
 		console.log('successfully loaded HOA buffer:', buffer);
 		decoder.updateFilters(buffer);
 	});
-	// filters.load('IRC_1076_C_HRIR_44100.sofa.json');
+	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
 	// Promise.all([
 	// 	loadSound('2.mp3'),
 	// 	loadSound('5.mp3'),
