@@ -30,10 +30,10 @@ scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 
 // --------- camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0, 10);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 0;
+camera.position.z = 1;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
