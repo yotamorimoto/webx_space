@@ -228,7 +228,6 @@ function onWindowResize(){
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	scrollTo(0,1);
 }
 window.addEventListener('orientationchange', onWindowResize);
 window.addEventListener('resize', onWindowResize, false);
