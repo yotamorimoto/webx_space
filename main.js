@@ -113,7 +113,7 @@ function play() {
 		obj[i].position.y = vec3[i].y;
 		obj[i].position.z = vec3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
-		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.1+0.03;
+		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.04+0.03;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let sound = context.createBufferSource();
