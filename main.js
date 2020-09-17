@@ -100,9 +100,6 @@ scene.add( light );
 light = new THREE.AmbientLight( 0x222222 );
 scene.add( light );
 
-function dist2amp(a,b) {
-	return 1 /
-}
 function play() {
 	for (let i=0; i<numGrain; i++) {
 		obj.push(new THREE.Mesh(chooseFrom(geometry), material));
@@ -154,7 +151,7 @@ function loop(){
 		o.position.y = vec3[i].y * 2;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
-		amp[i].gain.value = dist2amp(vec3[i], camera.position) * ampFactor;
+		amp[i].gain.value = 1/d * ampFactor;
 		lo[i].gain.value = lo[i].gain.value = 6-d;
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
