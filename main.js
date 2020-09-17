@@ -122,10 +122,10 @@ function play() {
 		sound.connect(amp);
 		amp.connect(enc[i].in);
 		amp.gain.value = 0.03;
-		enc.azim = sph.phi * 180;
-		enc.elev = sph.theta * 180;
-		enc.out.connect(rotator.in);
-		enc.updateGains();
+		enc[i].azim = sph.phi * 180;
+		enc[i].elev = sph.theta * 180;
+		enc[i].out.connect(rotator.in);
+		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		sound.start();
 	}
