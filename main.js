@@ -153,7 +153,7 @@ function loop(){
 	rotator.roll = camera.rotation.z*180/Math.PI;
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
-	console.log(camera.position.z);
+	// console.log(camera.position.z);
 };
 
 function askFullscreen() {
