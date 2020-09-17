@@ -76,14 +76,14 @@ function load() {
 	.then(decodedBuffer => { audio = decodedBuffer })
 	;
 }
-function play100() {
-	for (let i=0; i<100; i++) {
+function play() {
+	for (let i=0; i<numGrain; i++) {
 		let enc = new ambisonics.monoEncoder(context, maxOrder);
 		let sound = context.createBufferSource();
 		let amp   = context.createGain();
 		sound.buffer = audio;
 		sound.loop = true;
-		sound.playbackRate = chooseFrom([0.25, 0.5, 1.0, 1.5, -1.0, -0.5]);
+		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
 		sound.connect(amp);
 		amp.connect(enc.in);
 		amp.gain.value = 0.03;
