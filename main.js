@@ -85,6 +85,7 @@ const loadSound = (url) => {
 				let str = (completed / url.length * 255).toString();
 				document.getElementById('loading').style.backgroundColor = 'rgb(' +str+ ',' +str+ ',' +str+ ')';
 				if (completed == url.length) {
+					console.log('completed!');
 					document.getElementById('loading').style.backgroundColor = 'rgb(255,255,255)';
 					setTimeout(play, 2000);
 				};
