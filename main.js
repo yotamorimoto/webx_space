@@ -3,7 +3,7 @@ const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
 var context, audio;
-var encoder=[], rotator, decoder, filters;
+var rotator, decoder, filters;
 
 let mobile = false;
 if (
@@ -21,7 +21,7 @@ if (
 // }
 var context, listener, sound;
 var controls;
-var objs = [];
+var pos=[], enc=[], obj=[];
 
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
@@ -76,25 +76,76 @@ function load() {
 	.then(decodedBuffer => { audio = decodedBuffer })
 	;
 }
+// --------- things
+function chooseFrom(array){
+  return array[Math.floor(Math.random()*array.length)]
+}
+var geometry = [
+	new THREE.ConeGeometry( 5, 20, 32 ),
+	new THREE.DodecahedronGeometry(10, 0),
+	new THREE.OctahedronGeometry(10, 0),
+	new THREE.SphereGeometry( 5, 32, 32 ),
+	new THREE.TetrahedronGeometry(10, 0),
+	new THREE.TorusGeometry( 10, 3, 6, 3 ),
+	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 2 )
+];
+var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
+// --------- lights
+var light = new THREE.DirectionalLight( 0xffffff );
+light.position.set( 1, 2, 3 );
+scene.add( light );
+light = new THREE.DirectionalLight( 0x888888 );
+light.position.set( 3, 2, 1 );
+scene.add( light );
+light = new THREE.AmbientLight( 0x222222 );
+scene.add( light );
+
 function play() {
 	for (let i=0; i<numGrain; i++) {
-		let enc = new ambisonics.monoEncoder(context, maxOrder);
+		obj.push(new THREE.Mesh(chooseFrom(geometry), material));
+		enc.push(new ambisonics.monoEncoder(context, maxOrder));
+		pos3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
+		obj[i].position.x = pos3[i].x;
+		obj[i].position.y = pos3[i].y;
+		obj[i].position.z = pos3[i].z;
+		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
+		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.05+0.01;
+		obj[i].updateMatrix();
+		scene.add(mesh);
 		let sound = context.createBufferSource();
 		let amp   = context.createGain();
+		let sph   = new Three.Spherical(1,0,0);
+		sph.setFromVector3(pos3[i]);
 		sound.buffer = audio;
 		sound.loop = true;
 		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
 		sound.connect(amp);
-		amp.connect(enc.in);
+		amp.connect(enc[i].in);
 		amp.gain.value = 0.03;
-		enc.azim = Math.random() * 360 - 180;
-		enc.elev = Math.random() * 360 - 180;
+		enc.azim = sph.phi * 180;
+		enc.elev = sph.theta * 180;
 		enc.out.connect(rotator.in);
 		enc.updateGains();
 		rotator.out.connect(decoder.in);
 		sound.start();
 	}
 }
+function loop(){
+	var t = 0.0001 * Date.now();
+	requestAnimationFrame(loop);
+	// for (var i = 0, il = objs.length; i < il; i ++ ) {
+	// 	var obj = objs[i];
+	// 	obj.position.x = 5 * Math.cos( t + i );
+	// 	obj.position.y = 5 * Math.sin( t + i * 1.1);
+	// }
+	controls.update();
+	rotator.yaw = camera.rotation.y*180/Math.PI;
+	rotator.pitch = -camera.rotation.x*180/Math.PI;
+	rotator.roll = -camera.rotation.z*180/Math.PI;
+	rotator.updateRotMtx();
+	renderer.render(scene, camera);
+};
+
 function askFullscreen() {
 	if (gl.requestFullscreen) {
 		gl.requestFullscreen();
@@ -135,48 +186,6 @@ document.getElementById('loading').remove();
 // const box    = new THREE.Mesh( boxGeo, boxMat );
 // scene.add(box);
 
-// --------- things
-function chooseFrom(array){
-  return array[Math.floor(Math.random()*array.length)]
-}
-var geometry = [
-	new THREE.ConeGeometry( 5, 20, 32 ),
-	new THREE.DodecahedronGeometry(10, 0),
-	new THREE.OctahedronGeometry(10, 0),
-	new THREE.SphereGeometry( 5, 32, 32 ),
-	new THREE.TetrahedronGeometry(10, 0),
-	new THREE.TorusGeometry( 10, 3, 6, 3 ),
-	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 2 )
-];
-var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
-
-function makeObjects() {
-	for (var i=0; i<numGrain; i++) {
-		var mesh = new THREE.Mesh(
-			chooseFrom(geometry),
-			material
-		);
-		mesh.position.x = Math.random() * 10 - 5;
-		mesh.position.y = Math.random() * 10 - 5;
-		mesh.position.z = Math.random() * 10 - 5;
-		mesh.rotation.x = mesh.rotation.y = mesh.rotation.z = Math.random() * 2 - 1;
-		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.05 + 0.01;
-		mesh.updateMatrix();
-		// mesh.add(sound[i]);
-		scene.add( mesh );
-		objs.push( mesh );
-	}
-};
-// --------- lights
-var light = new THREE.DirectionalLight( 0xffffff );
-light.position.set( 1, 2, 3 );
-scene.add( light );
-light = new THREE.DirectionalLight( 0x888888 );
-light.position.set( 3, 2, 1 );
-scene.add( light );
-light = new THREE.AmbientLight( 0x222222 );
-scene.add( light );
-
 function hide(){
 	document.getElementById('play').remove();
 	// if(mobile){
@@ -184,22 +193,6 @@ function hide(){
 	// 	document.getElementById('text').style.backgroundColor = 'transparent';
 	// }
 }
-
-function loop(){
-	var t = 0.0001 * Date.now();
-	requestAnimationFrame(loop);
-	for (var i = 0, il = objs.length; i < il; i ++ ) {
-		var obj = objs[i];
-		obj.position.x = 5 * Math.cos( t + i );
-		obj.position.y = 5 * Math.sin( t + i * 1.1);
-	}
-	controls.update();
-	rotator.yaw = camera.rotation.y*180/Math.PI;
-	rotator.pitch = -camera.rotation.x*180/Math.PI;
-	rotator.roll = -camera.rotation.z*180/Math.PI;
-	rotator.updateRotMtx();
-	renderer.render(scene, camera);
-};
 // --------- resize
 function onWindowResize(){
 	camera.aspect = window.innerWidth / window.innerHeight;
