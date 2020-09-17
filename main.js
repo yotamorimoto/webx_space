@@ -53,7 +53,7 @@ document.getElementById('play').addEventListener('click', function(){
 		// controls.noPan = true;
 		// camera.position.z = 0; // ????
 	}
-	// askFullscreen();
+	askFullscreen();
 	load();
 	hide();
 });
