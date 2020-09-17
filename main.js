@@ -55,12 +55,13 @@ document.getElementById('play').addEventListener('click', function(){
 	hide();
 });
 function loadSound(url) {
-	console.log('fetch? ' + window.fetch);
 	return fetch(url)
-	.then(data => { data.arrayBuffer() })
+	.then(data => data.arrayBuffer())
 	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-	.then(decodedBuffer => { sound.push(decodedBuffer) })
-	;
+	.then(decodedBuffer => {
+		sound.push(decodedBuffer);
+		console.log('loaded ' + url);
+	});
 }
 async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
