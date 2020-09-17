@@ -54,14 +54,24 @@ document.getElementById('play').addEventListener('click', function(){
 	load();
 	hide();
 });
-function loadSound(url) {
-	return fetch(url)
-	.then(data => data.arrayBuffer())
-	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-	.then(decodedBuffer => {
-		sound.push(decodedBuffer);
-		console.log('loaded ' + url);
-	});
+// function loadSound(url) {
+// 	return fetch(url)
+// 	.then(data => data.arrayBuffer())
+// 	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+// 	.then(decodedBuffer => {
+// 		sound.push(decodedBuffer);
+// 		console.log('loaded ' + url);
+// 	});
+// }
+const loadSound = (url) => {
+  const request = new XMLHttpRequest();
+  request.open('GET', url);
+  request.responseType = 'arraybuffer';
+  request.onload = function() {
+    let arrayBuffer = request.response;
+    context.decodeAudioData(arrayBuffer, (decodedBuffer) => sound.push(decodedBuffer), (e) => console.log(e));
+  };
+  request.send();
 }
 async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -74,13 +84,13 @@ async function load() {
 		decoder.updateFilters(buffer);
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	console.log('promise');
-	Promise.all([
-		loadSound('2.mp3'),
-		loadSound('5.mp3'),
-		loadSound('9.mp3'),
-		loadSound('11.mp3')
-	]).then(play);
+	// console.log('promise');
+	// Promise.all([
+	// 	loadSound('2.mp3'),
+	// 	loadSound('5.mp3'),
+	// 	loadSound('9.mp3'),
+	// 	loadSound('11.mp3')
+	// ]).then(play);
 	// play();
 }
 // --------- things
