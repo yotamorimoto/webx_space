@@ -66,7 +66,6 @@ document.getElementById('play').addEventListener('click', function(){
 // 		console.log('loaded ' + url);
 // 	});
 // }
-let completed = 0;
 const loadSound = (url) => {
   const request = new XMLHttpRequest();
   request.open('GET', url);
@@ -75,25 +74,6 @@ const loadSound = (url) => {
     let arrayBuffer = request.response;
     context.decodeAudioData(arrayBuffer, (decodedBuffer) => sound.push(decodedBuffer), (e) => console.log(e));
   };
-	request.onreadystatechange = function() {
-	  // In local files, status is 0 upon success in Mozilla Firefox
-	  if(request.readyState === XMLHttpRequest.DONE) {
-	    var status = request.status;
-	    if (status === 0 || (status >= 200 && status < 400)) {
-	      // The request has been completed successfully
-	      console.log(completed = completed + 1);
-				let str = (completed / url.length * 255).toString();
-				document.getElementById('loading').style.backgroundColor = 'rgb(' +str+ ',' +str+ ',' +str+ ')';
-				if (completed == url.length) {
-					console.log('completed!');
-					document.getElementById('loading').style.backgroundColor = 'rgb(255,255,255)';
-					setTimeout(play, 2000);
-				};
-	    } else {
-	      // Oh no! There has been an error with the request!
-	    }
-	  }
-	};
 	request.send();
 }
 async function load() {
@@ -108,9 +88,11 @@ async function load() {
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
 	console.log('xml http request');
+	document.getElementById('loading').style.backgroundColor = 'rgb(255,255,255)';
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
 	}
+	setTimeout(play, 5000);
 	// console.log('promise');
 	// Promise.all([
 	// 	loadSound('2.mp3'),
