@@ -21,7 +21,7 @@ if (
 // }
 var context, listener, sound;
 var controls;
-var pos=[], enc=[], obj=[];
+var pos3=[],enc=[],obj=[];
 
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
