@@ -1,7 +1,7 @@
 const numGrain =  77;
 const ampFactor = Math.sqrt(1/numGrain);
 const maxOrder = 3;
-const url = ['2.mp3', '5.mp3', '9.mp3', '11.mp3'];
+const url = ['2.mp3', '5.mp3', '9.mp3', '11.mp3', '14.mp3'];
 var context, sound=[],lo=[],hi=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
@@ -106,13 +106,13 @@ function chooseFrom(array){
   return array[Math.floor(Math.random()*array.length)]
 }
 var geometry = [
-	new THREE.ConeGeometry( 5, 20, 32 ),
+	new THREE.ConeGeometry(5, 20, 32),
 	new THREE.DodecahedronGeometry(10, 0),
 	new THREE.OctahedronGeometry(10, 0),
-	new THREE.SphereGeometry( 5, 32, 32 ),
+	new THREE.SphereGeometry(5, 32, 32),
 	new THREE.TetrahedronGeometry(10, 0),
-	new THREE.TorusGeometry( 10, 3, 6, 3 ),
-	new THREE.TorusKnotGeometry( 9, 2, 8, 3, 2, 2 )
+	new THREE.TorusGeometry(10, 3, 6, 3),
+	new THREE.TorusKnotGeometry(9, 2, 8, 3, 2, 2)
 ];
 var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 // --------- lights
