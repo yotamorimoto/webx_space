@@ -64,20 +64,20 @@ function loadSound(url) {
 async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context  = new AudioContext({ latencyHint: 2048/44100 });
-	decoder = new ambisonics.binDecoder(context, maxOrder);
-	rotator = new ambisonics.sceneRotator(context, maxOrder)
-	decoder.out.connect(context.destination);
-	filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
-		console.log('successfully loaded HOA buffer:', buffer);
-		decoder.updateFilters(buffer);
-	});
-	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	Promise.all([
-		loadSound('2.mp3'),
-		loadSound('5.mp3'),
-		loadSound('9.mp3'),
-		loadSound('11.mp3')
-	]).then(play);
+	// decoder = new ambisonics.binDecoder(context, maxOrder);
+	// rotator = new ambisonics.sceneRotator(context, maxOrder)
+	// decoder.out.connect(context.destination);
+	// filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
+	// 	console.log('successfully loaded HOA buffer:', buffer);
+	// 	decoder.updateFilters(buffer);
+	// });
+	// filters.load('IRC_1076_C_HRIR_44100.sofa.json');
+	// Promise.all([
+	// 	loadSound('2.mp3'),
+	// 	loadSound('5.mp3'),
+	// 	loadSound('9.mp3'),
+	// 	loadSound('11.mp3')
+	// ]).then(play);
 }
 // --------- things
 function chooseFrom(array){
@@ -96,12 +96,12 @@ var material = new THREE.MeshToonMaterial({ color: 0x9999ab });
 // --------- lights
 var light = new THREE.DirectionalLight( 0xffffff );
 light.position.set( 1, 2, 3 );
-scene.add( light );
+scene.add(light);
 light = new THREE.DirectionalLight( 0x888888 );
 light.position.set( 3, 2, 1 );
-scene.add( light );
+scene.add(light);
 light = new THREE.AmbientLight( 0x222222 );
-scene.add( light );
+scene.add(light);
 
 function play() {
 	for (let i=0; i<numGrain; i++) {
@@ -115,28 +115,28 @@ function play() {
 		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
-		let node = context.createBufferSource();
-		let s    = new THREE.Spherical();
-		let d    = Math.max(vec3[i].distanceTo(camera.position), 0.05);
-		lo.push(context.createBiquadFilter());
-		lo[i].type  = 'lowshelf';
-		lo[i].frequency = 150;
-		lo[i].gain.value = 0;
-		s.setFromVector3(vec3[i]);
-		amp.push(context.createGain());
-		node.buffer = chooseFrom(sound);
-		node.loop = true;
-		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5]);
-		node.connect(amp[i]);
-		amp[i].connect(enc[i].in);
-		amp[i].gain.value =  1/d * ampFactor;
-		lo[i].gain.value = 12-(d*9);
-		enc[i].azim = s.phi*180;
-		enc[i].elev = s.theta*180;
-		enc[i].out.connect(rotator.in);
-		enc[i].updateGains();
-		rotator.out.connect(decoder.in);
-		node.start();
+		// let node = context.createBufferSource();
+		// let s    = new THREE.Spherical();
+		// let d    = Math.max(vec3[i].distanceTo(camera.position), 0.05);
+		// lo.push(context.createBiquadFilter());
+		// lo[i].type  = 'lowshelf';
+		// lo[i].frequency = 150;
+		// lo[i].gain.value = 0;
+		// s.setFromVector3(vec3[i]);
+		// amp.push(context.createGain());
+		// node.buffer = chooseFrom(sound);
+		// node.loop = true;
+		// node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5]);
+		// node.connect(amp[i]);
+		// amp[i].connect(enc[i].in);
+		// amp[i].gain.value =  1/d * ampFactor;
+		// lo[i].gain.value = 12-(d*9);
+		// enc[i].azim = s.phi*180;
+		// enc[i].elev = s.theta*180;
+		// enc[i].out.connect(rotator.in);
+		// enc[i].updateGains();
+		// rotator.out.connect(decoder.in);
+		// node.start();
 	}
 	loop();
 }
@@ -149,24 +149,23 @@ function loop(){
 		let s = new THREE.Spherical();
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
-		// vec3[i].z = Math.cos(t+i*1.789)+Math.PI;
 		o.position.x = vec3[i].x;
 		o.position.y = vec3[i].y;
 		o.position.z = vec3[i].z;
 		o.updateMatrix();
-		s.setFromVector3(vec3[i]);
-		amp[i].gain.value = 1/d * ampFactor;
-		lo[i].gain.value = 12-(d*9);
-		enc[i].azim = s.phi*180/Math.PI;
-		enc[i].elev = s.theta*180/Math.PI;
-		enc[i].updateGains();
+		// s.setFromVector3(vec3[i]);
+		// amp[i].gain.value = 1/d * ampFactor;
+		// lo[i].gain.value = 12-(d*9);
+		// enc[i].azim = s.phi*180/Math.PI;
+		// enc[i].elev = s.theta*180/Math.PI;
+		// enc[i].updateGains();
 	}
 	controls.update();
-	rotator.yaw = camera.rotation.y*180/Math.PI;
-	rotator.pitch = camera.rotation.x*180/Math.PI;
-	rotator.roll = camera.rotation.z*180/Math.PI;
-	rotator.updateRotMtx();
-	renderer.render(scene, camera);
+	// rotator.yaw = camera.rotation.y*180/Math.PI;
+	// rotator.pitch = camera.rotation.x*180/Math.PI;
+	// rotator.roll = camera.rotation.z*180/Math.PI;
+	// rotator.updateRotMtx();
+	// renderer.render(scene, camera);
 };
 
 function askFullscreen() {
