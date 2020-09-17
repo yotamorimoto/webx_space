@@ -1,6 +1,7 @@
 const numGrain =  77;
 const ampFactor = Math.sqrt(1/numGrain);
 const maxOrder = 3;
+const url = ['2.mp3', '5.mp3', '9.mp3', '11.mp3'];
 var context, sound=[],lo=[],hi=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
@@ -63,6 +64,7 @@ document.getElementById('play').addEventListener('click', function(){
 // 		console.log('loaded ' + url);
 // 	});
 // }
+let completed = 0;
 const loadSound = (url) => {
   const request = new XMLHttpRequest();
   request.open('GET', url);
@@ -71,7 +73,20 @@ const loadSound = (url) => {
     let arrayBuffer = request.response;
     context.decodeAudioData(arrayBuffer, (decodedBuffer) => sound.push(decodedBuffer), (e) => console.log(e));
   };
-  request.send();
+	request.onreadystatechange = function() {
+	  // In local files, status is 0 upon success in Mozilla Firefox
+	  if(xhr.readyState === XMLHttpRequest.DONE) {
+	    var status = request.status;
+	    if (status === 0 || (status >= 200 && status < 400)) {
+	      // The request has been completed successfully
+	      console.log(completed = completed + 1);
+				if(completed == url.length){ play() };
+	    } else {
+	      // Oh no! There has been an error with the request!
+	    }
+	  }
+	};
+	request.send();
 }
 async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -85,10 +100,9 @@ async function load() {
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
 	console.log('xml http request');
-	loadSound('2.mp3');
-	loadSound('5.mp3');
-	loadSound('9.mp3');
-	loadSound('11.mp3');
+	for (let i=0; i<url.length; i++) {
+		loadSound(url[i]);
+	}
 	// console.log('promise');
 	// Promise.all([
 	// 	loadSound('2.mp3'),
@@ -98,7 +112,7 @@ async function load() {
 	// ]).then(play);
 	console.log('timeout play');
 	// play();
-	setTimeout(play, 5000);
+	// setTimeout(play, 5000);
 }
 // --------- things
 function chooseFrom(array){
