@@ -74,6 +74,7 @@ async function load() {
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
 	Promise.all([
 		loadSound('2.mp3'),
+		loadSound('5.mp3'),
 		loadSound('9.mp3'),
 		loadSound('11.mp3')
 	]).then(play);
@@ -116,7 +117,7 @@ function play() {
 		scene.add(obj[i]);
 		let node = context.createBufferSource();
 		let s    = new THREE.Spherical();
-		let d    = Math.max(vec3[i].distanceTo(camera.position), 0.1);
+		let d    = Math.max(vec3[i].distanceTo(camera.position), 0.05);
 		lo.push(context.createBiquadFilter());
 		lo[i].type  = 'lowshelf';
 		lo[i].frequency = 150;
