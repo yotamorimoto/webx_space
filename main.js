@@ -33,7 +33,7 @@ scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 0;
+camera.position.z = 3;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
@@ -110,7 +110,7 @@ function play() {
 		obj[i].position.y = pos3[i].y;
 		obj[i].position.z = pos3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
-		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.02+0.005;
+		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.02+0.01;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let sound = context.createBufferSource();
