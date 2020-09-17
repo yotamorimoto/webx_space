@@ -136,8 +136,11 @@ function loop(){
 	for (let i=0; i<numGrain; i++) {
 		let o = obj[i];
 		let sph = new THREE.Spherical(1,0,0);
-		obj.position.x = pos3[i].x = Math.cos(t+i);
-		obj.position.y = pos3[i].y = Math.sin(t+i*1.1);
+		pos3[i].x = Math.cos(t+i);
+		pos3[i].y = Math.sin(t+i*1.1);
+		o.position.x = pos3[i].x;
+		o.position.y = pos3[i].y;
+		o.updateMatrix();
 		sph.setFromVector3(pos3[i]);
 		enc[i].azim = sph.phi * 180;
 		enc[i].elev = sph.theta * 180;
