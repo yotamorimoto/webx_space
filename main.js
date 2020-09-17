@@ -57,7 +57,7 @@ document.getElementById('play').addEventListener('click', function(){
 function loadSound(url) {
 	console.log('fetch? ' + window.fetch);
 	return fetch(url)
-	.then(data => {console.log(data); data.arrayBuffer() })
+	.then(data => { data.arrayBuffer() })
 	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
 	.then(decodedBuffer => { sound.push(decodedBuffer) })
 	;
