@@ -1,7 +1,7 @@
 const numGrain =  77;
 const ampFactor = Math.sqrt(1/numGrain);
 const maxOrder = 3;
-var context, sound=[];
+var context, sound=[],lo=[],hi=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
 
@@ -101,7 +101,7 @@ light = new THREE.AmbientLight( 0x222222 );
 scene.add( light );
 
 function dist2amp(a,b) {
-	return 1 / Math.max(a.distanceTo(b), 0.1)
+	return 1 /
 }
 function play() {
 	for (let i=0; i<numGrain; i++) {
@@ -117,6 +117,11 @@ function play() {
 		scene.add(obj[i]);
 		let node = context.createBufferSource();
 		let s    = new THREE.Spherical();
+		let d    = Math.max(vec3[i].distanceTo(camera.position), 0.1);
+		lo.push(context.createBiquadFilter());
+		lo[i].type  = 'lowshelf';
+		lo[i].frequency = 150;
+		lo[i].gain.value = 0;
 		s.setFromVector3(vec3[i]);
 		amp.push(context.createGain());
 		node.buffer = chooseFrom(sound);
@@ -124,7 +129,8 @@ function play() {
 		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5, 1.5]);
 		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
-		amp[i].gain.value =  dist2amp(vec3[i], camera.position) * ampFactor;
+		amp[i].gain.value =  1/d * ampFactor;
+		lo[i].gain.value = 6-d;
 		enc[i].azim = s.phi*180;
 		enc[i].elev = s.theta*180;
 		enc[i].out.connect(rotator.in);
@@ -139,6 +145,7 @@ function loop(){
 	requestAnimationFrame(loop);
 	for (let i=0; i<numGrain; i++) {
 		let o = obj[i];
+		let d = Math.max(vec3[i].distanceTo(camera.position), 0.1);
 		let s = new THREE.Spherical();
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
@@ -148,6 +155,7 @@ function loop(){
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = dist2amp(vec3[i], camera.position) * ampFactor;
+		lo[i].gain.value = lo[i].gain.value = 6-d;
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
@@ -158,7 +166,6 @@ function loop(){
 	rotator.roll = camera.rotation.z*180/Math.PI;
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
-	// console.log(camera.position.z);
 };
 
 function askFullscreen() {
