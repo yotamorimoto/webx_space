@@ -30,7 +30,7 @@ scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 
 // --------- camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.x = 0;
 camera.position.y = 0;
 camera.position.z = 0;
@@ -62,7 +62,6 @@ document.getElementById('play').addEventListener('click', function(){
 });
 function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
-	context  = new AudioContext({ latencyHint: 2048/44100 });
 	context  = new AudioContext({ latencyHint: 2048/44100 });
 	decoder = new ambisonics.binDecoder(context, maxOrder);
 	rotator = new ambisonics.sceneRotator(context, maxOrder)
@@ -140,8 +139,8 @@ function loop(){
 		let sph = new THREE.Spherical(1,0,0);
 		pos3[i].x = Math.cos(t+i);
 		pos3[i].y = Math.sin(t+i*1.1);
-		o.position.x = pos3[i].x;
-		o.position.y = pos3[i].y;
+		o.position.x = pos3[i].x * 5;
+		o.position.y = pos3[i].y * 5;
 		o.updateMatrix();
 		sph.setFromVector3(pos3[i]);
 		enc[i].azim = sph.phi * 180;
