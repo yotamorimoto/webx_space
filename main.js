@@ -1,4 +1,5 @@
 const numGrain =  10;
+const ampFactor = Math.sqrt(1/numGrain);
 const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
@@ -99,6 +100,9 @@ scene.add( light );
 light = new THREE.AmbientLight( 0x222222 );
 scene.add( light );
 
+function dist2amp(a,b) {
+	return 1 / Math.max(a.distanceTo(b), 0.3)
+}
 function play() {
 	for (let i=0; i<numGrain; i++) {
 		obj.push(new THREE.Mesh(chooseFrom(geometry), material));
@@ -120,7 +124,7 @@ function play() {
 		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
 		sound.connect(amp[i]);
 		amp[i].connect(enc[i].in);
-		amp[i].gain.value = 1 / numGrain / Math.pow(Math.max(vec3[i].distanceTo(camera.position), 0.3), 2);
+		amp[i].gain.value =  dist2amp(vec3[i], camera.position) * ampFactor;
 		enc[i].azim = s.phi*180;
 		enc[i].elev = s.theta*180;
 		enc[i].out.connect(rotator.in);
@@ -142,7 +146,7 @@ function loop(){
 		o.position.y = vec3[i].y * 5;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
-		amp[i].gain.value = 1 / numGrain / Math.pow(Math.max(vec3[i].distanceTo(camera.position), 0.3), 2);
+		amp[i].gain.value = dist2amp(vec3[i], camera.position) * ampFactor;
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
