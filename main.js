@@ -96,8 +96,9 @@ async function load() {
 	// 	loadSound('9.mp3'),
 	// 	loadSound('11.mp3')
 	// ]).then(play);
-	console.log('play');
-	play();
+	console.log('timeout play');
+	// play();
+	setTimeout(play, 3000);
 }
 // --------- things
 function chooseFrom(array){
