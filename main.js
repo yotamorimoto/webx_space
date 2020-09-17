@@ -142,7 +142,7 @@ function loop(){
 		o.position.y = vec3[i].y * 5;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
-		amp[i].gain.value = 1 / numGrain / Math.max(vec3[i].distanceTo(camera), 0.3);
+		amp[i].gain.value = 1 / numGrain / Math.max(vec3[i].distanceTo(camera.position), 0.3);
 		enc[i].azim = s.phi*180/Math.PI;
 		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
