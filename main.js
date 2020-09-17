@@ -28,9 +28,9 @@ scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 
 // --------- camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 100);
-camera.position.x = 0;
-camera.position.y = 0;
-camera.position.z = 0.6;
+camera.position.x = -0.5;
+camera.position.y = -0.02;
+camera.position.z = 0.01;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
