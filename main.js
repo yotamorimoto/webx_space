@@ -1,9 +1,12 @@
-const numGrain =  100;
+const numGrain =  10;
 const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
 var context, audio;
 var rotator, decoder, filters;
+var context, listener, sound;
+var controls;
+var pos3=[],enc=[],obj=[];
 
 let mobile = false;
 if (
@@ -19,9 +22,7 @@ if (
 // if(mobile){
 // 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
 // }
-var context, listener, sound;
-var controls;
-var pos3=[],enc=[],obj=[];
+
 
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
@@ -29,14 +30,14 @@ scene.background = new THREE.Color( 0xccccde );
 scene.fog = new THREE.FogExp2( 0xaaaaef, 0.02 );
 
 // --------- camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10);
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 5;
+camera.position.z = 0;
 // camera.rotation.reorder('YXZ');
 
 // --------- renderer
-let renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 gl.appendChild(renderer.domElement);
@@ -56,6 +57,7 @@ document.getElementById('play').addEventListener('click', function(){
 	// askFullscreen();
 	load();
 	hide();
+	play();
 	loop();
 });
 function load() {
@@ -109,7 +111,7 @@ function play() {
 		obj[i].position.y = pos3[i].y;
 		obj[i].position.z = pos3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
-		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.05+0.01;
+		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.02+0.005;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let sound = context.createBufferSource();
