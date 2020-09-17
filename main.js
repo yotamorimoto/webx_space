@@ -147,11 +147,11 @@ function loop(){
 		let o = obj[i];
 		let d = Math.max(vec3[i].distanceTo(camera.position), 0.1);
 		let s = new THREE.Spherical();
-		vec3[i].x = 3*Math.cos(t+i);
-		vec3[i].y = 3*Math.sin(t+i*1.1);
-		vec3[i].z = 3*Math.cos(t+i*1.789);
-		o.position.x = vec3[i].x * 2;
-		o.position.y = vec3[i].y * 2;
+		vec3[i].x = Math.cos(t+i);
+		vec3[i].y = Math.sin(t+i*1.1);
+		vec3[i].z = Math.cos(t+i*1.789);
+		o.position.x = vec3[i].x;
+		o.position.y = vec3[i].y;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
