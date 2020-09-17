@@ -152,6 +152,7 @@ function loop(){
 		vec3[i].z = Math.cos(t+i*1.789)+Math.PI;
 		o.position.x = vec3[i].x;
 		o.position.y = vec3[i].y;
+		o.position.z = vec3[i].z;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d * ampFactor;
