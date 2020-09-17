@@ -49,6 +49,8 @@ document.getElementById('play').addEventListener('click', function(){
 		controls.autoRotateSpeed = 1.6789;
 		// controls.autoRotate = true;
 		// controls.enableZoom = false;
+		// controls.noZoom = true;
+		// controls.noPan = true;
 		// camera.position.z = 0; // ????
 	}
 	// askFullscreen();
@@ -204,7 +206,6 @@ function loop(){
 	rotator.pitch = camera.rotation.x*180/Math.PI;
 	rotator.roll = camera.rotation.z*180/Math.PI;
 	rotator.updateRotMtx();
-	// ----------------------------
 	renderer.render(scene, camera);
 };
 
@@ -221,22 +222,6 @@ function askFullscreen() {
 	gl.style.width = '100%';
 	gl.style.height = '100%';
 }
-// --------- controls
-// controls.rotateUp(Math.PI / 4);
-// controls.target.set(
-// 	camera.position.x + 0.1,
-// 	camera.position.y,
-// 	camera.position.z
-// );
-// controls.noZoom = true;
-// controls.noPan = true;
-
-// var controls
-// controls = new THREE.OrbitControls(camera, renderer.domElement);
-// controls.addEventListener('change', function(e) {
-// 	foaRenderer.setRotationMatrix4(camera.matrixWorld.elements);
-// });
-
 // --------- box
 // const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
 // const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
