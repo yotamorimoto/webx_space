@@ -80,7 +80,11 @@ const loadSound = (url) => {
 	    if (status === 0 || (status >= 200 && status < 400)) {
 	      // The request has been completed successfully
 	      console.log(completed = completed + 1);
-				if(completed == url.length){ play() };
+				let str = (completed / url.length * 255).toString();
+				document.getElementById('loading').style.backgroundColor = 'rgb(' + str + ',' str + ',' + str + ')';
+				if (completed == url.length) {
+					setTimeout(play, 1000);
+				};
 	    } else {
 	      // Oh no! There has been an error with the request!
 	    }
@@ -110,9 +114,6 @@ async function load() {
 	// 	loadSound('9.mp3'),
 	// 	loadSound('11.mp3')
 	// ]).then(play);
-	console.log('timeout play');
-	// play();
-	// setTimeout(play, 5000);
 }
 // --------- things
 function chooseFrom(array){
@@ -139,6 +140,7 @@ light = new THREE.AmbientLight( 0x222222 );
 scene.add(light);
 
 function play() {
+	document.getElementById('loading').remove();
 	for (let i=0; i<numGrain; i++) {
 		obj.push(new THREE.Mesh(chooseFrom(geometry), material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
@@ -234,11 +236,6 @@ function askFullscreen() {
 // controls.addEventListener('change', function(e) {
 // 	foaRenderer.setRotationMatrix4(camera.matrixWorld.elements);
 // });
-
-// --------- video
-document.getElementById('loading').remove();
-// setTimeout(ready, 1000);
-// function ready(){ document.getElementById('loading').remove() };
 
 // --------- box
 // const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
