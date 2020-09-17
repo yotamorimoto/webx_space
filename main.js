@@ -143,8 +143,8 @@ function loop(){
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1 / numGrain / Math.max(s.radius, 0.3);
-		enc[i].azim = sph.phi*180/Math.PI;
-		enc[i].elev = sph.theta*180/Math.PI;
+		enc[i].azim = s.phi*180/Math.PI;
+		enc[i].elev = s.theta*180/Math.PI;
 		enc[i].updateGains();
 	}
 	controls.update();
