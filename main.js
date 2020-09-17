@@ -111,7 +111,7 @@ function play() {
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
 		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.05+0.01;
 		obj[i].updateMatrix();
-		scene.add(mesh);
+		scene.add(obj[i]);
 		let sound = context.createBufferSource();
 		let amp   = context.createGain();
 		let sph   = new Three.Spherical(1,0,0);
