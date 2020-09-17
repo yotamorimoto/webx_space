@@ -130,7 +130,7 @@ function play() {
 		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
 		amp[i].gain.value =  1/d * ampFactor;
-		lo[i].gain.value = 6-d;
+		lo[i].gain.value = 12-(d*3);
 		enc[i].azim = s.phi*180;
 		enc[i].elev = s.theta*180;
 		enc[i].out.connect(rotator.in);
@@ -149,7 +149,7 @@ function loop(){
 		let s = new THREE.Spherical();
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
-		vec3[i].z = Math.cos(t+i*1.789);
+		vec3[i].z = Math.cos(t+i*1.789)+Math.PI;
 		o.position.x = vec3[i].x;
 		o.position.y = vec3[i].y;
 		o.updateMatrix();
