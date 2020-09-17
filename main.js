@@ -1,4 +1,4 @@
-const numGrain =  30;
+const numGrain =  1;
 const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
@@ -6,7 +6,7 @@ var context, audio;
 var rotator, decoder, filters;
 var context, listener, sound;
 var controls;
-var pos3=[],enc=[],obj=[];
+var vec3=[],amp=[],enc=[],obj=[];
 
 let mobile = false;
 if (
@@ -57,8 +57,6 @@ document.getElementById('play').addEventListener('click', function(){
 	// askFullscreen();
 	load();
 	hide();
-	play();
-	loop();
 });
 function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -105,44 +103,46 @@ function play() {
 	for (let i=0; i<numGrain; i++) {
 		obj.push(new THREE.Mesh(chooseFrom(geometry), material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
-		pos3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
-		obj[i].position.x = pos3[i].x;
-		obj[i].position.y = pos3[i].y;
-		obj[i].position.z = pos3[i].z;
+		vec3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
+		obj[i].position.x = vec3[i].x;
+		obj[i].position.y = vec3[i].y;
+		obj[i].position.z = vec3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
 		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.1+0.03;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let sound = context.createBufferSource();
-		let amp   = context.createGain();
-		let sph   = new THREE.Spherical(1,0,0);
-		sph.setFromVector3(pos3[i]);
+		let s     = new THREE.Spherical();
+		s.setFromVector3(vec3[i]);
+		amp.push(context.createGain());
 		sound.buffer = audio;
 		sound.loop = true;
 		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
-		sound.connect(amp);
-		amp.connect(enc[i].in);
-		amp.gain.value = 1 / numGrain;
-		enc[i].azim = sph.phi * 180;
-		enc[i].elev = sph.theta * 180;
+		sound.connect(amp[i]);
+		amp[i].connect(enc[i].in);
+		amp[i].gain.value = 1 / numGrain / s.radius.max(0.5);
+		enc[i].azim = s.phi*180;
+		enc[i].elev = s.theta*180;
 		enc[i].out.connect(rotator.in);
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		sound.start();
 	}
+	loop();
 }
 function loop(){
 	var t = 0.0001 * Date.now();
 	requestAnimationFrame(loop);
 	for (let i=0; i<numGrain; i++) {
 		let o = obj[i];
-		let sph = new THREE.Spherical(1,0,0);
-		pos3[i].x = Math.cos(t+i);
-		pos3[i].y = Math.sin(t+i*1.1);
-		o.position.x = pos3[i].x * 5;
-		o.position.y = pos3[i].y * 5;
+		let s = new THREE.Spherical();
+		vec3[i].x = Math.cos(t+i);
+		vec3[i].y = Math.sin(t+i*1.1);
+		o.position.x = vec3[i].x * 5;
+		o.position.y = vec3[i].y * 5;
 		o.updateMatrix();
-		sph.setFromVector3(pos3[i]);
+		s.setFromVector3(vec3[i]);
+		amp[i].gain.value = 1 / numGrain / s.radius.max(0.5);
 		enc[i].azim = sph.phi*180/Math.PI;
 		enc[i].elev = sph.theta*180/Math.PI;
 		enc[i].updateGains();
