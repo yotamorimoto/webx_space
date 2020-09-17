@@ -2,8 +2,7 @@ const numGrain =  100;
 const speedOfSound = 343;
 const earDistance = 0.22;
 const maxOrder = 3;
-var context, sound, audio;
-var randomize;
+var context, audio;
 var encoder=[], rotator, decoder, filters;
 
 let mobile = false;
@@ -50,7 +49,7 @@ document.getElementById('play').addEventListener('click', function(){
 	} else {
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.autoRotateSpeed = 1.6789;
-		controls.autoRotate = true;
+		// controls.autoRotate = true;
 		controls.enableZoom = false;
 		// camera.position.z = 0; // ????
 	}
@@ -84,6 +83,7 @@ function play100() {
 		let amp   = context.createGain();
 		sound.buffer = audio;
 		sound.loop = true;
+		sound.playbackRate = chooseFrom([0.25, 0.5, 1.0, 1.5, -1.0, -0.5]);
 		sound.connect(amp);
 		amp.connect(enc.in);
 		amp.gain.value = 0.03;
