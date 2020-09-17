@@ -114,7 +114,7 @@ function play() {
 		scene.add(obj[i]);
 		let sound = context.createBufferSource();
 		let amp   = context.createGain();
-		let sph   = new Three.Spherical(1,0,0);
+		let sph   = new THREE.Spherical(1,0,0);
 		sph.setFromVector3(pos3[i]);
 		sound.buffer = audio;
 		sound.loop = true;
