@@ -5,7 +5,7 @@ const earDistance = 0.22;
 const maxOrder = 3;
 var context, audio;
 var rotator, decoder, filters;
-var context, listener, sound;
+var context, sound=[];
 var controls;
 var vec3=[],amp=[],enc=[],obj=[];
 
@@ -73,8 +73,17 @@ function load() {
 	fetch('2.mp3')
 	.then(data => data.arrayBuffer())
 	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-	.then(decodedBuffer => { audio = decodedBuffer })
-	.then(play())
+	.then(decodedBuffer => { sound.push(decodedBuffer) })
+	;
+	fetch('9.mp3')
+	.then(data => data.arrayBuffer())
+	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+	.then(decodedBuffer => { sound.push(decodedBuffer) })
+	;
+	fetch('11.mp3')
+	.then(data => data.arrayBuffer())
+	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+	.then(decodedBuffer => { sound.push(decodedBuffer) })
 	;
 }
 // --------- things
@@ -102,7 +111,7 @@ light = new THREE.AmbientLight( 0x222222 );
 scene.add( light );
 
 function dist2amp(a,b) {
-	return 1 / Math.max(a.distanceTo(b), 0.3)
+	return 1 / Math.max(a.distanceTo(b), 0.1)
 }
 function play() {
 	for (let i=0; i<numGrain; i++) {
@@ -120,7 +129,7 @@ function play() {
 		let s     = new THREE.Spherical();
 		s.setFromVector3(vec3[i]);
 		amp.push(context.createGain());
-		sound.buffer = audio;
+		sound.buffer = chooseFrom(sound);
 		sound.loop = true;
 		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5, 1.5]);
 		sound.connect(amp[i]);
