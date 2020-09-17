@@ -53,7 +53,6 @@ document.getElementById('play').addEventListener('click', function(){
 		// controls.noPan = true;
 		// camera.position.z = 0; // ????
 	}
-	askFullscreen();
 	load();
 	hide();
 });
@@ -93,6 +92,7 @@ async function load() {
 		loadSound(url[i]);
 	}
 	setTimeout(play, 5000);
+	setTimeout(askFullscreen, 5000);
 	// console.log('promise');
 	// Promise.all([
 	// 	loadSound('2.mp3'),
