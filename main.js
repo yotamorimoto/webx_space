@@ -78,6 +78,7 @@ async function load() {
 	// 	loadSound('9.mp3'),
 	// 	loadSound('11.mp3')
 	// ]).then(play);
+	play();
 }
 // --------- things
 function chooseFrom(array){
