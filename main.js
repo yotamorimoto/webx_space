@@ -1,4 +1,4 @@
-const numGrain =  10;
+const numGrain =  30;
 const ampFactor = Math.sqrt(1/numGrain);
 const speedOfSound = 343;
 const earDistance = 0.22;
@@ -121,7 +121,7 @@ function play() {
 		amp.push(context.createGain());
 		sound.buffer = audio;
 		sound.loop = true;
-		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1.5]);
+		sound.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 4/3, 1/1.5, 1.5]);
 		sound.connect(amp[i]);
 		amp[i].connect(enc[i].in);
 		amp[i].gain.value =  dist2amp(vec3[i], camera.position) * ampFactor;
@@ -142,8 +142,8 @@ function loop(){
 		let s = new THREE.Spherical();
 		vec3[i].x = Math.cos(t+i);
 		vec3[i].y = Math.sin(t+i*1.1);
-		o.position.x = vec3[i].x * 5;
-		o.position.y = vec3[i].y * 5;
+		o.position.x = vec3[i].x * 2;
+		o.position.y = vec3[i].y * 2;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = dist2amp(vec3[i], camera.position) * ampFactor;
