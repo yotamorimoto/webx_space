@@ -64,9 +64,9 @@ function loadSound(url) {
 async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context  = new AudioContext({ latencyHint: 2048/44100 });
-	// decoder = new ambisonics.binDecoder(context, maxOrder);
-	// rotator = new ambisonics.sceneRotator(context, maxOrder)
-	// decoder.out.connect(context.destination);
+	decoder = new ambisonics.binDecoder(context, maxOrder);
+	rotator = new ambisonics.sceneRotator(context, maxOrder)
+	decoder.out.connect(context.destination);
 	// filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
 	// 	console.log('successfully loaded HOA buffer:', buffer);
 	// 	decoder.updateFilters(buffer);
