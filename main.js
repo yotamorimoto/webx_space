@@ -126,9 +126,9 @@ function play() {
 		let index = randIndex();
 		obj.push(new THREE.Mesh(geometry[index], material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
-		vec3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
-		obj[i].position.x = vec3[i].x;
-		obj[i].position.y = vec3[i].y;
+		vec3.push(new THREE.Vector3(0, 0, Math.random()*2-1));
+		obj[i].position.x = 0;
+		obj[i].position.y = 0;
 		obj[i].position.z = vec3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
 		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
