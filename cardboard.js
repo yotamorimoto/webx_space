@@ -77,7 +77,7 @@ async function load() {
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
 	}
-	setTimeout(play, 5000);
+	setTimeout(play, 10000);
 }
 // --------- things
 function randIndex(){
