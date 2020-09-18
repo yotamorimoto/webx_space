@@ -46,6 +46,8 @@ document.getElementById('play').addEventListener('click', function(){
 		controls.connect(); // do it twice! ... (once at the Ctor above)
 	} else {
 		alert('携帯端末でご利用ください。');
+		controls = new THREE.DeviceOrientationControls(camera);
+		controls.connect(); // do it twice! ... (once at the Ctor above)
 	}
 	load();
 	hide();
