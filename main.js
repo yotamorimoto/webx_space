@@ -208,10 +208,10 @@ function askFullscreen() {
 
 function hide(){
 	document.getElementById('play').remove();
-	// if(mobile){
-	// 	document.getElementById('text').style.color = 'transparent';
-	// 	document.getElementById('text').style.backgroundColor = 'transparent';
-	// }
+	if (mobile) {
+		document.getElementById('text').style.color = 'transparent';
+		document.getElementById('text').style.backgroundColor = 'transparent';
+	}
 }
 // --------- resize
 function onWindowResize(){
