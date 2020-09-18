@@ -44,7 +44,7 @@
       color: white;
       background-color: black;
       border: none;
-      transition-duration: 6s;
+      transition-duration: 10s;
     }
     #info {
     	position: fixed;
@@ -57,21 +57,6 @@
     	text-align: center;
       user-select: none;
 			pointer-events: none;
-    }
-    #text {
-      position: fixed;
-      z-index: -1;
-      width: 100%;
-      color: black;
-      background-color: rgba(245,245,245,0.7);
-      top: auto; left: 0; right: 0; bottom: 20px;
-      font-size: 12px;
-      font-family: serif;
-      text-align: left;
-      user-select: none;
-			pointer-events: none;
-			transition-delay: 40s;
-      transition-duration: 17s;
     }
     p {
       padding: 0px 10px 0px 10px;
@@ -97,14 +82,12 @@
 		<!--  MUST before the script -->
 		<div id='gl'></div>
 		<button id='play'>play</button>
-		<button id='loading'>loading...</button>
+		<button id='loading'>
+			loading...
+			音の高臨場感を実現する技術（高次アンビソニックスや頭部伝達関数）を組み合わせ、
+			音源の移動と視点（聴点）の変化によって広がりや奥行きが感じられるVRデモを作成しました。
+		</button>
 		<div id='info'>sound | space</div>
-    <div id='text'>
-			<p>
-        音の高臨場感を実現する技術（高次アンビソニックスや頭部伝達関数）を組み合わせ、
-				音源の移動と視点（聴点）の変化によって広がりや奥行きが感じられるVRデモを作成しました。
-      </p>
-		</div>
 		<!--  MUST be after elements -->
 		<script src='cardboard.js'></script>
 	</body>
