@@ -127,9 +127,11 @@ function play() {
 		obj.push(new THREE.Mesh(geometry[index], material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
 		vec3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
+		obj[i].position.x = vec3[i].x;
+		obj[i].position.y = vec3[i].y;
+		obj[i].position.z = vec3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
-		obj[i].scale.x  = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
-		obj[i].position = vec3[i];
+		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let node = context.createBufferSource();
@@ -164,9 +166,11 @@ function loop(){
 		let o = obj[i];
 		let d = Math.max(vec3[i].distanceTo(camera.position), 0.05);
 		let s = new THREE.Spherical();
-		vec3[i].x  = Math.cos(t+i);
-		vec3[i].y  = Math.sin(t+i*1.1);
-		o.position = vec3[i];
+		vec3[i].x = Math.cos(t+i);
+		vec3[i].y = Math.sin(t+i*1.1);
+		o.position.x = vec3[i].x;
+		o.position.y = vec3[i].y;
+		o.position.z = vec3[i].z;
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d*ampFactor;
