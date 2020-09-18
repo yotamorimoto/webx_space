@@ -1,8 +1,9 @@
-const numGrain =  77;
+const numGrain =  70;
 const ampFactor = Math.sqrt(1/numGrain);
+const toDegree = 180/Math.PI;
 const maxOrder = 3;
 const url = ['0.mp3', '1.mp3', '2.mp3', '5.mp3', '9.mp3', '11.mp3', '14.mp3'];
-var context, sound=[],lo=[],hi=[];
+var context, sound=[],low=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
 
@@ -16,10 +17,6 @@ if (
  || navigator.userAgent.match(/BlackBerry/i)
  || navigator.userAgent.match(/Windows Phone/i)
 ) { mobile = true };
-
-// if(mobile){
-// 	alert('映像のみの再生となります。VR音響はデスクトップ環境をご利用下さい。');
-// }
 
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
@@ -47,11 +44,7 @@ document.getElementById('play').addEventListener('click', function(){
 	} else {
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.autoRotateSpeed = 1.6789;
-		// controls.autoRotate = true;
-		// controls.enableZoom = false;
-		// controls.noZoom = true;
-		// controls.noPan = true;
-		// camera.position.z = 0; // ????
+		controls.autoRotate = true;
 	}
 	load();
 	hide();
@@ -86,7 +79,6 @@ async function load() {
 		decoder.updateFilters(buffer);
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	console.log('xml http request');
 	document.getElementById('loading').style.backgroundColor = 'rgb(255,255,255)';
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
@@ -135,20 +127,18 @@ function play() {
 		obj.push(new THREE.Mesh(geometry[index], material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
 		vec3.push(new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1));
-		obj[i].position.x = vec3[i].x;
-		obj[i].position.y = vec3[i].y;
-		obj[i].position.z = vec3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
-		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
+		obj[i].scale.x  = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
+		obj[i].position = vec3[i];
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let node = context.createBufferSource();
 		let s    = new THREE.Spherical();
 		let d    = Math.max(vec3[i].distanceTo(camera.position), 0.05);
-		lo.push(context.createBiquadFilter());
-		lo[i].type  = 'lowshelf';
-		lo[i].frequency = 150;
-		lo[i].gain.value = 0;
+		low.push(context.createBiquadFilter());
+		low[i].type       = 'lowshelf';
+		low[i].frequency  = 150;
+		low[i].gain.value = 0;
 		s.setFromVector3(vec3[i]);
 		amp.push(context.createGain());
 		node.buffer = sound[index];
@@ -156,18 +146,16 @@ function play() {
 		node.playbackRate.value = chooseFrom([0.125, 0.25, 0.5, 1.0, 1/1.5]);
 		node.connect(amp[i]);
 		amp[i].connect(enc[i].in);
-		amp[i].gain.value =  1/d * ampFactor;
-		lo[i].gain.value = 12-(d*9);
-		enc[i].azim = s.phi*180;
-		enc[i].elev = s.theta*180;
+		amp[i].gain.value = 1/d*ampFactor;
+		low[i].gain.value = 12-(d*9);
+		enc[i].azim = s.phi   * toDegree;
+		enc[i].elev = s.theta * toDegree;
 		enc[i].out.connect(rotator.in);
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
-	console.log('synth init')
 	loop();
-	console.log('loop start')
 }
 function loop(){
 	var t = 0.0002 * Date.now();
@@ -176,23 +164,21 @@ function loop(){
 		let o = obj[i];
 		let d = Math.max(vec3[i].distanceTo(camera.position), 0.05);
 		let s = new THREE.Spherical();
-		vec3[i].x = Math.cos(t+i);
-		vec3[i].y = Math.sin(t+i*1.1);
-		o.position.x = vec3[i].x;
-		o.position.y = vec3[i].y;
-		o.position.z = vec3[i].z;
+		vec3[i].x  = Math.cos(t+i);
+		vec3[i].y  = Math.sin(t+i*1.1);
+		o.position = vec3[i];
 		o.updateMatrix();
 		s.setFromVector3(vec3[i]);
-		amp[i].gain.value = 1/d * ampFactor;
-		lo[i].gain.value = 12-(d*9);
-		enc[i].azim = s.phi*180/Math.PI;
-		enc[i].elev = s.theta*180/Math.PI;
+		amp[i].gain.value = 1/d*ampFactor;
+		low[i].gain.value = 12-(d*9);
+		enc[i].azim = s.phi   * toDegree;
+		enc[i].elev = s.theta * toDegree;
 		enc[i].updateGains();
 	}
 	controls.update();
-	rotator.yaw = camera.rotation.y*180/Math.PI;
-	rotator.pitch = camera.rotation.x*180/Math.PI;
-	rotator.roll = camera.rotation.z*180/Math.PI;
+	rotator.yaw   = camera.rotation.y * toDegree;
+	rotator.pitch = camera.rotation.x * toDegree;
+	rotator.roll  = camera.rotation.z * toDegree;
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
 };
