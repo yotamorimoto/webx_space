@@ -36,6 +36,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 effect = new THREE.StereoEffect(renderer);
+effect.setSize(window.innerWidth, window.innerHeight);
 gl.appendChild(renderer.domElement);
 
 // --------- start
