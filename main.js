@@ -160,7 +160,7 @@ function play() {
 	loop();
 }
 function loop(){
-	var t = 0.0002 * Date.now();
+	let t = 0.0002 * Date.now();
 	requestAnimationFrame(loop);
 	for (let i=0; i<numGrain; i++) {
 		let o = obj[i];
@@ -171,7 +171,7 @@ function loop(){
 		o.position.x = vec3[i].x;
 		o.position.y = vec3[i].y;
 		o.position.z = vec3[i].z;
-		o.updateMatrix();
+		// o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d*ampFactor;
 		low[i].gain.value = 12-(d*9);
