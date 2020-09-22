@@ -51,6 +51,7 @@ document.getElementById('play').addEventListener('click', function(){
 	}
 	const noSleep = new NoSleep();
 	noSleep.enable();
+	askFullscreen();
 	load();
 	hide();
 });

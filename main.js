@@ -1,4 +1,4 @@
-const numGrain =  70;
+const numGrain =  60;
 const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 3;
@@ -41,6 +41,7 @@ document.getElementById('play').addEventListener('click', function(){
 	if (mobile) {
 		controls = new THREE.DeviceOrientationControls(camera);
 		controls.connect(); // do it twice! ... (once at the Ctor above)
+		askFullscreen();
 	} else {
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.autoRotateSpeed = 1.6789;
