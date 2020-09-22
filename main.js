@@ -84,7 +84,6 @@ async function load() {
 		loadSound(url[i]);
 	}
 	setTimeout(play, 5000);
-	// setTimeout(askFullscreen, 5000);
 	// console.log('promise');
 	// Promise.all([
 	// 	loadSound('2.mp3'),
@@ -157,7 +156,7 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
-	if (mobile) { askFullscreen() };
+	// if (mobile) { askFullscreen() };
 	loop();
 }
 function loop() {
@@ -188,19 +187,19 @@ function loop() {
 	renderer.render(scene, camera);
 };
 
-function askFullscreen() {
-	if (gl.requestFullscreen) {
-		gl.requestFullscreen();
-	} else if (gl.mozRequestFullScreen) { /* Firefox */
-		gl.mozRequestFullScreen();
-	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-		gl.webkitRequestFullscreen();
-	} else if (gl.msRequestFullscreen) { /* IE/Edge */
-		gl.msRequestFullscreen();
-	}
-	gl.style.width = '100%';
-	gl.style.height = '100%';
-}
+// function askFullscreen() {
+// 	if (gl.requestFullscreen) {
+// 		gl.requestFullscreen();
+// 	} else if (gl.mozRequestFullScreen) { /* Firefox */
+// 		gl.mozRequestFullScreen();
+// 	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+// 		gl.webkitRequestFullscreen();
+// 	} else if (gl.msRequestFullscreen) { /* IE/Edge */
+// 		gl.msRequestFullscreen();
+// 	}
+// 	gl.style.width = '100%';
+// 	gl.style.height = '100%';
+// }
 // --------- box
 // const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
 // const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );

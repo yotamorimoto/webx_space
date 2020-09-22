@@ -81,7 +81,6 @@ async function load() {
 		loadSound(url[i]);
 	}
 	setTimeout(play, 10000);
-	setTimeout(askFullscreen, 10500);
 }
 // --------- things
 function randIndex(){
@@ -175,20 +174,19 @@ function loop(){
 	rotator.updateRotMtx();
 	effect.render(scene, camera);
 };
-
-function askFullscreen() {
-	if (gl.requestFullscreen) {
-		gl.requestFullscreen();
-	} else if (gl.mozRequestFullScreen) { /* Firefox */
-		gl.mozRequestFullScreen();
-	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-		gl.webkitRequestFullscreen();
-	} else if (gl.msRequestFullscreen) { /* IE/Edge */
-		gl.msRequestFullscreen();
-	}
-	gl.style.width = '100%';
-	gl.style.height = '100%';
-}
+// function askFullscreen() {
+// 	if (gl.requestFullscreen) {
+// 		gl.requestFullscreen();
+// 	} else if (gl.mozRequestFullScreen) { /* Firefox */
+// 		gl.mozRequestFullScreen();
+// 	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+// 		gl.webkitRequestFullscreen();
+// 	} else if (gl.msRequestFullscreen) { /* IE/Edge */
+// 		gl.msRequestFullscreen();
+// 	}
+// 	gl.style.width = '100%';
+// 	gl.style.height = '100%';
+// }
 function hide(){
 	document.getElementById('play').remove();
 }
