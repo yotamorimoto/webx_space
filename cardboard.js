@@ -1,4 +1,4 @@
-const numGrain =  70;
+const numGrain =  60;
 const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 3;
@@ -73,7 +73,8 @@ async function load() {
 		decoder.updateFilters(buffer);
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	document.getElementById('loading').style.backgroundColor = 'rgb(255,255,255)';
+	document.getElementById('loading').style.backgroundColor = 'white';
+	document.getElementById('loading').style.color = 'black';
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
 	}
