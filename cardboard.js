@@ -49,6 +49,8 @@ document.getElementById('play').addEventListener('click', function(){
 		controls = new THREE.DeviceOrientationControls(camera);
 		controls.connect(); // do it twice! ... (once at the Ctor above)
 	}
+	const noSleep = new NoSleep();
+	noSleep.enable();
 	load();
 	hide();
 });
