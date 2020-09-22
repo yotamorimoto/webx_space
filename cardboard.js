@@ -81,6 +81,7 @@ async function load() {
 		loadSound(url[i]);
 	}
 	setTimeout(play, 10000);
+	setTimeout(askFullscreen, 10500);
 }
 // --------- things
 function randIndex(){
@@ -146,7 +147,6 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
-	askFullscreen();
 	loop();
 }
 function loop(){
@@ -191,10 +191,6 @@ function askFullscreen() {
 }
 function hide(){
 	document.getElementById('play').remove();
-	if (mobile) {
-		document.getElementById('text').style.color = 'transparent';
-		document.getElementById('text').style.backgroundColor = 'transparent';
-	}
 }
 // --------- resize
 function onWindowResize(){
