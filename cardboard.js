@@ -51,7 +51,6 @@ document.getElementById('play').addEventListener('click', function(){
 	}
 	const noSleep = new NoSleep();
 	noSleep.enable();
-	askFullscreen();
 	load();
 	hide();
 });
@@ -147,6 +146,7 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
+	askFullscreen();
 	loop();
 }
 function loop(){

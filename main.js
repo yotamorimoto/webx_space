@@ -41,7 +41,6 @@ document.getElementById('play').addEventListener('click', function(){
 	if (mobile) {
 		controls = new THREE.DeviceOrientationControls(camera);
 		controls.connect(); // do it twice! ... (once at the Ctor above)
-		askFullscreen();
 	} else {
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 		controls.autoRotateSpeed = 1.6789;
@@ -158,9 +157,10 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
+	if (mobile) { askFullscreen() };
 	loop();
 }
-function loop(){
+function loop() {
 	let t = 0.0002 * Date.now();
 	requestAnimationFrame(loop);
 	for (let i=0; i<numGrain; i++) {
