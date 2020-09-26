@@ -20,7 +20,7 @@ if (
 
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xccccde );
+scene.background = new THREE.Color(0xccccde);
 scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 
 // --------- camera
@@ -37,7 +37,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 gl.appendChild(renderer.domElement);
 
 // --------- start
-document.getElementById('play').addEventListener('click', function(){
+document.getElementById('play').addEventListener('click', function() {
 	if (mobile) {
 		controls = new THREE.DeviceOrientationControls(camera);
 		controls.connect(); // do it twice! ... (once at the Ctor above)
@@ -49,15 +49,6 @@ document.getElementById('play').addEventListener('click', function(){
 	load();
 	hide();
 });
-// function loadSound(url) {
-// 	return fetch(url)
-// 	.then(data => data.arrayBuffer())
-// 	.then(arrayBuffer => context.decodeAudioData(arrayBuffer))
-// 	.then(decodedBuffer => {
-// 		sound.push(decodedBuffer);
-// 		console.log('loaded ' + url);
-// 	});
-// }
 const loadSound = (url) => {
   const request = new XMLHttpRequest();
   request.open('GET', url);
@@ -79,7 +70,7 @@ async function load() {
 		decoder.updateFilters(buffer);
 	});
 	filters.load('IRC_1076_C_HRIR_44100.sofa.json');
-	document.getElementById('loading').style.backgroundColor = 'rgb(255,255,255)';
+	document.getElementById('loading').style.backgroundColor = 'white';
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
 	}

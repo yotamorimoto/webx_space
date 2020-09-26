@@ -21,7 +21,7 @@ if (
 
 const gl = document.getElementById('gl');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xccccde );
+scene.background = new THREE.Color(0xccccde);
 scene.fog = new THREE.FogExp2(0xaaaaef, 0.1);
 
 // --------- camera
@@ -40,7 +40,7 @@ effect.setSize(window.innerWidth, window.innerHeight);
 gl.appendChild(renderer.domElement);
 
 // --------- start
-document.getElementById('play').addEventListener('click', function(){
+document.getElementById('play').addEventListener('click', function() {
 	if (mobile) {
 		controls = new THREE.DeviceOrientationControls(camera);
 		controls.connect(); // do it twice! ... (once at the Ctor above)
