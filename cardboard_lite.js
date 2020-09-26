@@ -1,4 +1,4 @@
-const numGrain =  30;
+const numGrain =  02;
 const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 2;
@@ -120,7 +120,7 @@ function play() {
 		obj[i].position.y = 0;
 		obj[i].position.z = vec3[i].z;
 		obj[i].rotation.x = obj[i].rotation.y = obj[i].rotation.z = Math.random()*2-1;
-		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.01+0.01;
+		obj[i].scale.x = obj[i].scale.y = obj[i].scale.z = Math.random()*0.02+0.02;
 		obj[i].updateMatrix();
 		scene.add(obj[i]);
 		let node = context.createBufferSource();
