@@ -1,4 +1,4 @@
-const numGrain =  30;
+const numGrain =  20;
 const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 2;
@@ -84,13 +84,6 @@ async function load() {
 		loadSound(url[i]);
 	}
 	setTimeout(play, 5000);
-	// console.log('promise');
-	// Promise.all([
-	// 	loadSound('2.mp3'),
-	// 	loadSound('5.mp3'),
-	// 	loadSound('9.mp3'),
-	// 	loadSound('11.mp3')
-	// ]).then(play);
 }
 // --------- things
 function randIndex(){
@@ -156,8 +149,7 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
-	// if (mobile) { askFullscreen() };
-	loop();
+	setTimeout(loop, 1000);
 }
 function loop() {
 	let t = 0.0002 * Date.now();
@@ -171,7 +163,6 @@ function loop() {
 		o.position.x = vec3[i].x;
 		o.position.y = vec3[i].y;
 		o.position.z = vec3[i].z;
-		// o.updateMatrix();
 		s.setFromVector3(vec3[i]);
 		amp[i].gain.value = 1/d*ampFactor;
 		low[i].gain.value = 12-(d*9);
@@ -186,25 +177,6 @@ function loop() {
 	rotator.updateRotMtx();
 	renderer.render(scene, camera);
 };
-
-// function askFullscreen() {
-// 	if (gl.requestFullscreen) {
-// 		gl.requestFullscreen();
-// 	} else if (gl.mozRequestFullScreen) { /* Firefox */
-// 		gl.mozRequestFullScreen();
-// 	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-// 		gl.webkitRequestFullscreen();
-// 	} else if (gl.msRequestFullscreen) { /* IE/Edge */
-// 		gl.msRequestFullscreen();
-// 	}
-// 	gl.style.width = '100%';
-// 	gl.style.height = '100%';
-// }
-// --------- box
-// const boxGeo = new THREE.BoxBufferGeometry( 100, 100, 100, 4, 4, 4 );
-// const boxMat = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true } );
-// const box    = new THREE.Mesh( boxGeo, boxMat );
-// scene.add(box);
 
 function hide(){
 	document.getElementById('play').remove();
