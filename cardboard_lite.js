@@ -52,7 +52,7 @@ document.getElementById('play').addEventListener('click', function(){
 	const noSleep = new NoSleep();
 	noSleep.enable();
 	load();
-	hide();
+	document.getElementById('play').remove();
 });
 const loadSound = (url) => {
   const request = new XMLHttpRequest();
@@ -146,7 +146,7 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
-	loop();
+	setTimeout(loop, 10000);
 }
 function loop(){
 	var t = 0.0002 * Date.now();
@@ -187,9 +187,6 @@ function loop(){
 // 	gl.style.width = '100%';
 // 	gl.style.height = '100%';
 // }
-function hide(){
-	document.getElementById('play').remove();
-}
 // --------- resize
 function onWindowResize(){
 	let w,h;
