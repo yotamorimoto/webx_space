@@ -1,4 +1,4 @@
-const numGrain =  02;
+const numGrain =  20;
 const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 2;
