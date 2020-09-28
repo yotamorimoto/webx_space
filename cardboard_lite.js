@@ -80,6 +80,7 @@ async function load() {
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
 	}
+	// 10 sec for loading **********
 	setTimeout(play, 10000);
 }
 // --------- things

@@ -74,6 +74,7 @@ async function load() {
 	for (let i=0; i<url.length; i++) {
 		loadSound(url[i]);
 	}
+	// 5 sec for loading *****
 	setTimeout(play, 5000);
 }
 // --------- things
