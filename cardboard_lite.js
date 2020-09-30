@@ -1,4 +1,4 @@
-const numGrain =  20;
+const numGrain =  7;
 const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 2;
@@ -113,7 +113,7 @@ scene.add(light);
 function play() {
 	document.getElementById('loading').remove();
 	for (let i=0; i<numGrain; i++) {
-		let index = randIndex();
+		let index = i;//randIndex();
 		obj.push(new THREE.Mesh(geometry[index], material));
 		enc.push(new ambisonics.monoEncoder(context, maxOrder));
 		vec3.push(new THREE.Vector3(0, 0, Math.random()*2-1));
