@@ -145,14 +145,9 @@ function play() {
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		node.start();
-		setTimeout(notify_end, 5000);
+		setTimeout(end, 3000);
 	}
 	loop();
-}
-function notify_end() {
-	let end = document.getElementById('end');
-	end.style.backgroundColor = 'rgba(0,0,0,0.9)';
-	end.style.display = 'block';
 }
 function loop(){
 	var t = 0.0002 * Date.now();
@@ -180,19 +175,6 @@ function loop(){
 	rotator.updateRotMtx();
 	effect.render(scene, camera);
 };
-// function askFullscreen() {
-// 	if (gl.requestFullscreen) {
-// 		gl.requestFullscreen();
-// 	} else if (gl.mozRequestFullScreen) { /* Firefox */
-// 		gl.mozRequestFullScreen();
-// 	} else if (gl.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-// 		gl.webkitRequestFullscreen();
-// 	} else if (gl.msRequestFullscreen) { /* IE/Edge */
-// 		gl.msRequestFullscreen();
-// 	}
-// 	gl.style.width = '100%';
-// 	gl.style.height = '100%';
-// }
 function hide(){
 	document.getElementById('play').remove();
 }
@@ -208,3 +190,11 @@ function onWindowResize(){
 }
 window.addEventListener('orientationchange', onWindowResize);
 window.addEventListener('resize', onWindowResize, false);
+
+function end(){
+  const e = document.createElement('button');
+  e.appendChild(document.createTextNode('長時間の使用を控え、ご休憩ください。'));
+  e.style.cssText = 'z-index:1; width:100%; height:100%; margin:0; padding:auto; font-size:60px; text-align:center; position:fixed; display:table-cell; vertical-align:middle; color:rgba(0,0,0,0); background-color:rgba(255,255,255,0); transition-duration:3s;';
+  document.body.insertBefore(e, document.getElementById('test'));
+  setTimeout(()=>{e.style.color='rgba(255,255,255,0.9)';e.style.backgroundColor='rgba(10,10,20,0.9)'});
+}
