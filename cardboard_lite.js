@@ -146,6 +146,7 @@ function play() {
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		node.start();
+		setTimeout(end, 3000);
 	}
 	setTimeout(loop, 1000);
 }
@@ -187,3 +188,11 @@ function onWindowResize(){
 }
 window.addEventListener('orientationchange', onWindowResize);
 window.addEventListener('resize', onWindowResize, false);
+
+function end(){
+  const e = document.createElement('button');
+  e.appendChild(document.createTextNode('長時間の使用を控え、ご休憩ください。'));
+  e.style.cssText = 'z-index:1; width:100%; height:100%; margin:0; padding:auto; font-size:60px; text-align:center; position:fixed; display:table-cell; vertical-align:middle; color:rgba(0,0,0,0); background-color:rgba(255,255,255,0); transition-duration:4s;';
+  document.body.insertBefore(e, document.getElementById('gl'));
+  setTimeout(()=>{e.style.color='rgba(255,255,255,0.9)';e.style.backgroundColor='rgba(10,10,20,0.9)'});
+}
