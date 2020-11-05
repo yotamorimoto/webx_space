@@ -155,9 +155,14 @@ function play() {
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		node.start();
+		setTimeout(notif_yend, 5000);
 	}
 	// if (mobile) { askFullscreen() };
 	loop();
+}
+function notify_end() {
+	let end = document.getElementById('end');
+	end.style.display = 'block'
 }
 function loop() {
 	let t = 0.0002 * Date.now();
