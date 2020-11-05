@@ -151,7 +151,8 @@ function play() {
 }
 function notify_end() {
 	let end = document.getElementById('end');
-	end.style.display = 'block'
+	end.style.backgroundColor = 'rgba(0,0,0,0.9)';
+	end.style.display = 'block';
 }
 function loop(){
 	var t = 0.0002 * Date.now();
