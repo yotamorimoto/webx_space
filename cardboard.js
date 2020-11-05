@@ -145,7 +145,7 @@ function play() {
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		node.start();
-		setTimeout(notif_yend, 5000);
+		setTimeout(notify_end, 5000);
 	}
 	loop();
 }
