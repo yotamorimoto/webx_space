@@ -3,7 +3,7 @@ const ampFactor = Math.sqrt(1/numGrain);
 const toDegree = 180/Math.PI;
 const maxOrder = 3;
 const url = ['0.mp3', '1.mp3', '2.mp3', '5.mp3', '9.mp3', '11.mp3', '14.mp3'];
-var context, sound=[],low=[];
+var context, master, sound=[],low=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
 
@@ -72,8 +72,11 @@ async function load() {
 	AudioContext = window.AudioContext || window.webkitAudioContext;
 	context  = new AudioContext({ latencyHint: 2048/44100 });
 	decoder = new ambisonics.binDecoder(context, maxOrder);
-	rotator = new ambisonics.sceneRotator(context, maxOrder)
-	decoder.out.connect(context.destination);
+	rotator = new ambisonics.sceneRotator(context, maxOrder);
+	master = context.createGain();
+	master.gain.value = 0.01;
+	master.connect(context.destination);
+	decoder.out.connect(master);
 	filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
 		console.log('successfully loaded HOA buffer:', buffer);
 		decoder.updateFilters(buffer);
@@ -156,6 +159,7 @@ function play() {
 		rotator.out.connect(decoder.in);
 		node.start();
 	}
+	master.gain.exponentialRampToValueAtTime(1.0, context.currentTime + 3);
 	// if (mobile) { askFullscreen() };
 	loop();
 }

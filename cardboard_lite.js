@@ -4,7 +4,7 @@ const toDegree = 180/Math.PI;
 const maxOrder = 2;
 const url = ['0.mp3', '1.mp3', '2.mp3', '5.mp3', '9.mp3', '11.mp3', '14.mp3'];
 var effect;
-var context, sound=[],low=[];
+var context, master, sound=[],low=[];
 var rotator, decoder, filters;
 var vec3=[],amp=[],enc=[],obj=[];
 
@@ -69,7 +69,10 @@ async function load() {
 	context  = new AudioContext({ latencyHint: 2048/44100 });
 	decoder = new ambisonics.binDecoder(context, maxOrder);
 	rotator = new ambisonics.sceneRotator(context, maxOrder)
-	decoder.out.connect(context.destination);
+	master = context.createGain()
+	master.gain.value = Number.EPSILON
+	master.connect(context.destination)
+	decoder.out.connect(master)
 	filters = new ambisonics.HRIRloader_ircam(context, maxOrder, (buffer) => {
 		console.log('successfully loaded HOA buffer:', buffer);
 		decoder.updateFilters(buffer);
@@ -81,7 +84,7 @@ async function load() {
 		loadSound(url[i]);
 	}
 	// 10 sec for loading **********
-	setTimeout(play, 10000);
+	setTimeout(play, 10000)
 }
 // --------- things
 function randIndex(){
@@ -146,9 +149,10 @@ function play() {
 		enc[i].updateGains();
 		rotator.out.connect(decoder.in);
 		node.start();
-		setTimeout(end, 3000);
 	}
-	setTimeout(loop, 1000);
+	master.gain.exponentialRampToValueAtTime(1.0, context.currentTime + 3)
+	setTimeout(end, 300000)
+	loop()
 }
 function loop(){
 	var t = 0.0002 * Date.now();
@@ -189,10 +193,10 @@ function onWindowResize(){
 window.addEventListener('orientationchange', onWindowResize);
 window.addEventListener('resize', onWindowResize, false);
 
-function end(){
+function end() {
   const e = document.createElement('button');
-  e.appendChild(document.createTextNode('長時間の使用をお控えください。'));
-  e.style.cssText = 'z-index:1; width:100%; height:100%; margin:0; padding:auto; font-size:20px; text-align:center; position:fixed; color:rgba(0,0,0,0); background-color:rgba(255,255,255,0); transition-duration:4s;';
+  e.style.cssText = 'z-index:1; width:100%; height:100%; margin:0; padding:auto; font-size:20px; text-align:center; position:fixed; color:rgba(0,0,0,0); background: rgba(255,255,255,0) url(\'logo_white.png\') no-repeat fixed center/50%; transition-duration:4s;';
   document.body.insertBefore(e, document.getElementById('gl'));
-  setTimeout(()=>{e.style.color='rgba(255,255,255,0.5)';e.style.backgroundColor='rgba(10,10,20,0.5)'},500);
+  setTimeout(()=>{e.style.color='rgba(255,255,255,0.9)';e.style.backgroundColor='rgba(10,10,20,0.9)'},500);
+	master.gain.linearRampToValueAtTime(0, context.currentTime + 3)
 }
